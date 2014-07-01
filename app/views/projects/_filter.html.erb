@@ -1,0 +1,74 @@
+<div class="panel-group margin-top">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">
+                <a data-toggle="collapse" href="#repomgmt-tasks-filter">
+                    Aufgaben filtern
+                </a>
+            </h4>
+        </div>
+        <div id="repomgmt-tasks-filter" class="panel-collapse collapse <%= if @filter_set then "in" end %>">
+            <div class="panel-body">
+                <%= form_tag({controller: :projects, action: :show}, method: "get") do %>
+                    <%= hidden_field(:project, :id) %>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            Status
+                            <div class="checkbox text-danger">
+                                <label>
+                                    <%= check_box_tag "state[]", "notAssigned", params.fetch(:state, []).include?("notAssigned") %>
+                                        Nicht zugewiesen
+                                </label>
+                            </div>
+                            <div class="checkbox text-warning">
+                                <label>
+                                    <%= check_box_tag "state[]", "inProgress", params.fetch(:state, []).include?("inProgress") %>
+                                        In Bearbeitung
+                                </label>
+                            </div>
+                            <div class="checkbox text-success">
+                                <label>
+                                    <%= check_box_tag "state[]", "solved", params.fetch(:state, []).include?("solved") %>
+                                        Abgeschlossen
+                                </label>
+                            </div>
+                        </div>
+                        <div class="col-sm-3">
+                            Version
+                            <% @project.versions.each do |version| %>
+                                <div class="checkbox">
+                                    <label>
+                                        <%= check_box_tag "version[]", version.id, task_is_version_checked(version) %>
+                                            <%= version.name %>
+                                    </label>
+                                </div>
+                            <% end %>
+                        </div>
+                        <div class="col-sm-3">
+                            Autor
+                            <% @project.users.each do |user| %>
+                                <div class="checkbox">
+                                    <label>
+                                        <%= check_box_tag "author[]", user.id, task_is_author_checked(user) %>
+                                            <%= user.name %>
+                                    </label>
+                                </div>
+                            <% end %>
+                        </div>
+                        <div class="col-sm-3">
+                            Bearbeiter
+                            <% @project.users.each do |user| %>
+                                <div class="checkbox">
+                                    <label>
+                                        <%= check_box_tag "assignee[]", user.id, task_is_assignee_checked(user) %>
+                                            <%= user.name %>
+                                    </label>
+                                </div>
+                            <% end %>
+                        </div>
+                    </div>
+                <% end %>
+            </div>
+        </div>
+    </div>
+</div>

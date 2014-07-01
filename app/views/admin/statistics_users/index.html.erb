@@ -1,0 +1,25 @@
+<h3>Benutzerstatistiken</h3>
+<table class="table table-hover table-striped table-rows-clickable">
+    <thead>
+        <tr>
+            <th class="col-sm-4">Benutzer</th>
+            <th class="col-sm-1">Projekte</th>
+            <th class="col-sm-1">Commits</th>
+            <th class="col-sm-2">Letzter Commit</th>
+            <th class="col-sm-2">Letzter Login</th>
+            <th class="col-sm-2">Registrierung</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% @users.each do |user| %>
+            <tr data-href="<%= admin_statistics_user_path user %>">
+                <td><%= user.name %></td>
+                <td><%= user.repositories.count %></td>
+                <td><%= user.commit_count %></td>
+                <td><%= l user.last_commit.date, format: :short unless user.last_commit.nil? %></td>
+                <td><%= l user[:current_sign_in_at], format: :short unless user[:last_sign_in_at].nil? %></td>
+                <td><%= l user[:created_at], format: :short %></td>
+            </tr>
+        <% end %>
+    </tbody>
+</table>

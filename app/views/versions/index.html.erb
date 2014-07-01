@@ -1,0 +1,33 @@
+<div class="clearfix">
+    <h3 class="pull-left">Versionen von <%= link_to @project.name, repository_path(@project) %></h3>
+    <div class="pull-right">
+        <%= link_to new_repository_version_path(@project), class: "btn btn-default hidden-xs" do %><span class="glyphicon glyphicon-plus"></span> Version anlegen<% end %>
+    </div>
+</div>
+
+<% if @versions.any? then %>
+    <table class="table table-hover table-striped table-rows-clickable">
+        <thead>
+            <tr>
+                <th class="col-sm-4">Name</th>
+                <th class="col-sm-2">Ausgeliefert</th>
+                <th class="col-sm-2">Geplantes Datum</th>
+                <th class="col-sm-2">Verbleibend</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% @versions.each do |version| %>
+                <tr class="<%= version_row_class version %>" data-href="<%= edit_repository_version_path @project, version %>">
+                    <td><%= version.name %></td>
+                    <td><%= human_boolean version.delivered %></td>
+                    <td><%= l version.due_date, format: :long unless version.due_date.nil? %></td>
+                    <td><%= distance_of_time_in_words_to_now(version.due_date) unless version.due_date.nil? || version.due_date.past? %></td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+<% else %>
+    <p class="margin-top">
+        Es existiert noch keine Version für dieses Projekt. Legen Sie eine Version an, um Aufgaben besser verwalten zu können.
+    </p>
+<% end %>

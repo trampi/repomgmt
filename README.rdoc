@@ -1,0 +1,21 @@
+= Repomgmt
+This is a nice and easy to use webinterface to manage gitolite.
+
+== Under development.
+Even if it was developed with care i can not yet assure that it is ready for anything else than a preview.
+At the moment the only language supported is german. No testsuite is provided yet.
+
+== Initial steps
+* {install gitolite}[http://gitolite.com/gitolite/setup.html]
+* clone the gitolite admin repository for later use
+* install ruby 1.9.3 (others versions not yet tested)
+* install rails 4.1
+* grant the user under which the application will run write access to the repository root
+* clone repomgmt
+* configure the application (See in config/application.rb on the bottom)
+* register as a new user and use sqlite to grant it the admin privilege (it is on my todo-list...)
+* (optionally) you are admin now and can register new users. you can disable registration if you like.
+* enjoy it
+
+=== Close registration
+Look in app/models/user.rb and remove ":registerable, " around line 19.

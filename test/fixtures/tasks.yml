@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  version_id: 
+  author_id: 1
+  assignee_id: 1
+  title: MyString
+  message: MyText
+  solved: false
+
+two:
+  version_id: 
+  author_id: 1
+  assignee_id: 1
+  title: MyString
+  message: MyText
+  solved: false

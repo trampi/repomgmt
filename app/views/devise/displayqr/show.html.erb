@@ -1,0 +1,19 @@
+<h2><%= I18n.t('title', {:scope => 'devise.registration'}) %></h2>
+
+<p>Bei Google Authenticator handelt es sich um eine sogenannte <a href="http://de.wikipedia.org/wiki/Zwei-Faktor-Authentifizierung">Zwei-Faktor-Authentifizierung</a>. Dafür benötigen Sie ein Smartphone und die entsprechende App für <a href="https://itunes.apple.com/de/app/google-authenticator/id388497605?mt=8">iOS</a> oder <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2">Android</a>. Sie werden dann bei Login von neuen Rechnern zur Eingabe eines Codes gebeten, welcher auf Ihrem Smartphone generiert wird.</p>
+
+<%= google_authenticator_qrcode(resource) %>
+
+<%= form_for(resource, :as => resource_name, :url => [:refresh, resource_name, :displayqr], :html => {:method => :post}) do |f|%>
+    <p><%= f.submit I18n.t('newtoken', {:scope => 'devise.registration'}), class: "form-control btn btn-warning" %></p>
+<% end %>
+
+<%= form_for(resource, :as => resource_name, :url => [resource_name, :displayqr], :html => { :method => :put }) do |f| %>
+    <%= devise_error_messages! %>
+    <div class="checkbox text-left">
+        <%= f.check_box :gauth_enabled %>
+        <%= f.label :gauth_enabled, I18n.t('qrstatus', {:scope => 'devise.registration'}) %>
+    </div>
+
+    <p><%= f.submit I18n.t('submit', {:scope => 'devise.registration'}), class: "form-control btn btn-primary" %></p>
+<% end %>

@@ -1,0 +1,37 @@
+<h3>Wilkommen!</h3>
+<p>Hallo <em><%= current_user.name %></em>!</p>
+
+<%= if current_user.admin? && all_repositories.count == 0 then render "first_steps" end %>
+
+<div class="row">
+    <div class="col-md-6">
+        <h4>Ihnen zugewiesene, offene Aufgaben:</h4>
+        <% if current_user.tasks_assigned.any? then %>
+            <% if current_user.open_tasks_assigned.any? then %>
+                <ul>
+                    <% current_user.open_tasks_assigned.each do |task| %>
+                        <li><%= link_to task do %> <%= task.repository.name %> - <%= task.title %> <% end %></li>
+                    <% end %>
+                </ul>
+            <% else %>
+                <p>Ihnen sind aktuell keine Aufgaben zugewiesen.</p>
+            <% end %>
+            <p>In der Vergangenheit haben Sie <%= pluralize(current_user.closed_tasks_assigned.count, "Aufgabe", "Aufgaben") %> erledigt.</p>
+        <% else %>
+            <p>Ihnen sind bisher keine Aufgaben zugewiesen worden.</p>
+        <% end %>
+    </div>
+
+    <div class="col-md-6">
+        <h4>Von Ihnen erstellte, offene Aufgaben:</h4>
+        <% if current_user.open_tasks_authored.any? then %>
+            <ul>
+                <% current_user.open_tasks_authored.each do |task| %>
+                    <li><%= link_to task do %><%= task.repository.name %> - <%= task.title %><% end %></li>
+                <% end %>
+            </ul>
+        <% else %>
+            <p>Es existiert momentan keine offene Aufgabe, die Sie erstellt haben.</p>
+        <% end %>
+    </div>
+</div>

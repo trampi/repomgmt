@@ -1,0 +1,41 @@
+<h3>Statistiken von Benutzer <%= @user.name %></h3>
+
+<p>Der Benutzer ist Mitglied in <em><%= @user.repositories.count %> Projekten</em> und hat <em><%= @user.commits.count %> Commits</em>.</p>
+
+<% if @user.commits.any? then %>
+    <div class="row">
+        <div class="col-md-6">
+            <h4>Commits in Projekten</h4>
+            <div id="repository-statistics-commits-user-repositories"></div>
+        </div>
+        <div class="col-md-6">
+            <h4>Commit-Verlauf</h4>
+            <div id="repository-statistics-commits-user-repositories-history"></div>
+        </div>
+    </div>
+
+    <hr />
+    <h4>Letzte Commits:</h4>
+    <table class="table">
+        <thead>
+            <th>Nachricht</th>
+            <th>Benutzer</th>
+            <th>Datum</th>
+            <th>SHA</th>
+        </thead>
+        <tbody>
+            <% @user.commits.each do |commit| %>
+                <tr>
+                    <td><%= commit.message %></td>
+                    <td><%= commit.author.name %></td>
+                    <td><%= l commit.date, format: :short %></td>
+                    <td><%= commit.sha.slice(0, 10) %></td>
+                <tr>
+            <% end %>
+        </tbody>
+    </table>
+
+    <script type="text/javascript">
+    Repomgmt.StatisticsUser(<%= @user.id.to_json %>);
+    </script>
+<% end %>

@@ -1,0 +1,49 @@
+<div class="clearfix">
+    <h3 class="pull-left">
+        Aufgaben für Projekt <%= link_to @project.name %>
+    </h3>
+    <div class="pull-right">
+        <%= link_to repository_versions_path(@project), class: "btn btn-default hidden-xs hidden-sm" do %>Versionen<% end %>
+        <%= link_to new_task_path(:repository_id => @project.id), class: "btn btn-default hidden-xs hidden-sm" do %><span class="glyphicon glyphicon-plus"></span> Task anlegen<% end %>
+        <%= link_to new_task_path(:repository_id => @project.id), class: "btn btn-default visible-xs visible-sm" do %><span class="glyphicon glyphicon-plus"></span><% end %>
+    </div>
+</div>
+
+<% if @project.tasks.any? then %>
+    <%= render 'filter' %>
+
+    <div id="repomgmt-project-tasks">
+        <table class="table table-hover table-striped table-rows-clickable">
+            <thead>
+                <tr>
+                    <th class="col-sm-1">#</th>
+                    <th class="col-sm-5">Titel</th>
+                    <th class="col-sm-2">Bearbeiter</th>
+                    <th class="col-sm-2 hidden-xs">Autor</th>
+                    <th class="col-sm-1">Version</th>
+                    <th class="col-sm-1 hidden-xs">Kommentare</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% @tasks.each do |task| %>
+                    <tr class="<%= task_class task %>" data-href="<%= task_path task %>">
+                        <td><%= task.id %></td>
+                        <td><%= task.title %></td>
+                        <td><%= user_name_or_nobody task.assignee %></td>
+                        <td class="hidden-xs"><%= user_name_or_nobody task.author %></td>
+                        <td><%= version_if_set task.version %></td>
+                        <td class="hidden-xs"><%= task.comments.count %></td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+
+        <p>
+            <%= @tasks.count %> von <%= @project.tasks.count %> Aufgaben für dieses Projekt werden angezeigt.
+        </p>
+    </div>
+<% else %>
+    <p class="margin-top">
+        Es existiert noch keine Aufgabe für dieses Projekt. Legen Sie eine Aufgabe an, in dem sie rechts oben auf "Aufgabe anlegen" klicken!
+    </p>
+<% end %>

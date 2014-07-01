@@ -1,0 +1,39 @@
+<div class="clearfix">
+    <h3 class="pull-left">Aufgabe <%= @task.id %> - <%= @task.title %></h3>
+    <div class="pull-right">
+        <h3>
+            <small>
+                Projekt <%= link_to @task.repository.name, repository_path(@task.repository) %>
+                <% if @task.version then %>
+                    / Version <%= link_to @task.version.name, repository_path(@task.repository, "version[]" => @task.version.id) %>
+                <% end %>
+            </small>
+            <%= link_to edit_task_path(@task), class: "btn btn-default hidden-xs" do %><span class="glyphicon glyphicon-edit"></span> Bearbeiten<% end %>
+        </h3>
+    </div>
+</div>
+
+<h4>Beschreibung</h4>
+<div class="row">
+    <div class="col-sm-8">
+        <% if @task.message.blank? then %>
+            <p><em>Keine Beschreibung angegeben.</em></p>
+        <% else %>
+            <p><%= @task.message %></p>
+        <% end %>
+    </div>
+    <div class="col-sm-4 text-right">
+        <p>Autor: <%= user_name_or_nobody @task.author %></p>
+        <p>Bearbeiter: <%= user_name_or_nobody @task.assignee %></p>
+        <p>Erstellung: <%= l @task[:created_at], format: :short %></p>
+        <p>Letzte Bearbeitung: <%= l @task[:updated_at], format: :short %></p>
+        <%= button_to "Abschließen", solve_task_path(@task), method: :post, class: "btn btn-primary" unless @task.solved? %>
+    </div>
+</div>
+
+<hr />
+<h4>Kommentare</h4>
+
+<%= render 'comments/form' %>
+
+<%= render @comments %>

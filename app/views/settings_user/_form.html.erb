@@ -1,0 +1,48 @@
+<% if @user.errors.any? then %>
+    <div class="alert alert-danger">
+        <ul>
+            <% @user.errors.full_messages.each do |msg| %>
+                <li><%= msg %></li>
+            <% end %>
+        <ul>
+    </div>
+<% end %>
+
+<%= form_for @user, url: settings_user_path, html: {class: "form-horizontal"} do |f| %>
+    <div class="form-group">
+        <%= f.label :mail, "eMail", class: "col-sm-2 control-label" %>
+        <div class="col-sm-6">
+            <%= f.email_field :email, placeholder: "eMail", class: "form-control" %>
+        </div>
+    </div>
+    <div class="form-group">
+        <%= f.label :name, "Name", class: "col-sm-2 control-label" %>
+        <div class="col-sm-6">
+            <%= f.text_field :name, placeholder: "Name", class: "form-control", disabled: true, readonly: true %>
+        </div>
+    </div>
+    <div class="form-group">
+        <%= f.label :password, "Passwort", class: "col-sm-2 control-label" %>
+        <div class="col-sm-6">
+            <%= f.password_field :password, placeholder: "Passwort", class: "form-control" %>
+        </div>
+    </div>
+    <div class="form-group">
+        <%= f.label :password_confirmation, "Passwort wdh.", class: "col-sm-2 control-label" %>
+        <div class="col-sm-6">
+            <%= f.password_field :password_confirmation, placeholder: "Passwort", class: "form-control" %>
+        </div>
+    </div>
+    <div class="form-group">
+        <%= f.label :public_key, "Public Key", class: "col-sm-2 control-label" %>
+        <div class="col-sm-6">
+            <%= f.text_area :public_key, placeholder: "Öffentlicher Schlüssel", class: "form-control" %>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-6">
+            <%= f.submit "Speichern", class: "btn btn-primary" %>
+            <%= link_to "Einstellungen zur Zwei-Faktor-Authentifizierung", user_displayqr_path, class: "btn btn-default" %>
+        </div>
+    </div>
+<% end %>

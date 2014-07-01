@@ -1,0 +1,18 @@
+de:
+  devise:
+    submit_token: "Token prüfen"
+    submit_token_title: "Bitte geben Sie ihr Google-Authenticator-Token ein:"
+    registration:
+      title: "Google Authenticator:"
+      nice_request: "Möchten Sie Google-Authenticator aktivieren?"
+      qrstatus: "Google Authenticator verwenden"
+      submit: "Einstellungen speichern"
+      newtoken: "Neues Token erstellen"
+    checkga:
+      user:
+        signed_in: "Erfolgreich mit Token angemeldet."
+        error: "Ungültige Anmeldedaten."
+    displayqr:
+      user:
+        status: "Einstellungen zur Zwei-Faktor-Authentifzierung gespeichert!"
+        newtoken: "Sie haben Ihr Token aktualisiert."

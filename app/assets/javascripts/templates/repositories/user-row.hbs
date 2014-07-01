@@ -1,0 +1,32 @@
+<!-- template for users in a project -->
+{{#if users}}
+    <table class="table table-striped table-input">
+        <thead>
+            <tr>
+                <th class="col-sm-5">Name</th>
+                <th class="col-sm-5">Rolle</th>
+                <th class="col-sm-2"></th>
+            </tr>
+        </thead>
+        <tbody id="repository-user-tbody">
+            {{#each users}}
+                <tr id="repository-user-tr-template">
+                    <td>
+                        <span class="control-label">{{this.name}}</span>
+                        <input type="hidden" name="repository[user_ids][]" value="{{this.id}}"/>
+                    </td>
+                    <td>
+                        <select disabled readonly class="form-control">
+                            <option>Commiter</option>
+                        </select>
+                    </td>
+                    <td>
+                        <a class="btn btn-default glyphicon glyphicon-remove repository-user-remove" data-user-id="{{this.id}}"></a>
+                    </td>
+                </tr>
+            {{/each}}
+        </tbody>
+    </table>
+{{else}}
+    <p>No users yet</p>
+{{/if}}

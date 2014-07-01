@@ -1,0 +1,15 @@
+<% if !flash[:alert].nil? then %>
+    <div class="alert alert-danger"><%= flash[:alert] %></div>
+<% end %>
+
+<% if !flash[:error].nil? then %>
+    <div class="alert alert-danger"><%= flash[:error] %></div>
+<% end %>
+
+<% if !flash[:notice].nil? then %>
+    <div class="alert alert-info"><%= flash[:notice] %></div>
+<% end %>
+
+<% if !flash[:success].nil? then %>
+    <div class="alert alert-success"><%= flash[:success] %></div>
+<% end %>

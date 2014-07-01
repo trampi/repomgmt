@@ -1,0 +1,9 @@
+<div class="media">
+    <a class="pull-left" href="#">
+        <img class="media-object" src="/assets/user.svg">
+    </a>
+    <div class="media-body">
+        <strong><%= comment.user.name %></strong>, <%= l comment.created_at, format: :short %>
+        <p><%= simple_format h comment.message %></p>
+    </div>
+</div>
