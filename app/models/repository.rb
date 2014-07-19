@@ -11,7 +11,11 @@ class Repository < ActiveRecord::Base
 	has_many :tasks
 	has_many :versions
 
-	validates :name, presence: true, uniqueness: true
+	validates :name, presence: true, uniqueness: true, format: { with: /\A[a-zA-Z0-9]+\z/, message: "darf nur Buchstaben und Zahlen enthalten" }
+	validates_presence_of :repository_access # gitolite enforces that a repository has to have at least one user
+
+	before_destroy { |record| record.delete_repository }
+	before_save { |record| record.rename_repository record.name if record.persisted? }
 
 	def cache_key_commits
 		last_modification_date = File.mtime(get_path + "objects").to_s
@@ -85,6 +89,16 @@ class Repository < ActiveRecord::Base
 		versions.where("delivered = ?", false).reorder(due_date: :asc).first
 	end
 
+	def delete_repository
+		FileUtils.rm_rf get_path
+	end
+
+	def rename_repository newname
+		oldpath = Repository.find(id).get_path
+		newpath = Pathname.new Rails.configuration.repomgmt.repository_root_path + "/#{newname}.git"
+		FileUtils.mv(oldpath, newpath)
+	end
+
 	############## CLASS METHODS ##############
 	def self.commits_per_author
 		result = {}
@@ -109,17 +123,17 @@ class Repository < ActiveRecord::Base
 	end
 
 	def self.storage_bytes_free
-		stat = Sys::Filesystem.stat "C:/"
+		stat = Sys::Filesystem.stat Rails.configuration.repomgmt.repository_root_path
 		stat.bytes_free
 	end
 
 	def self.storage_bytes_total
-		stat = Sys::Filesystem.stat "C:/"
+		stat = Sys::Filesystem.stat Rails.configuration.repomgmt.repository_root_path
 		stat.blocks * stat.block_size
 	end
 
 	def self.storage_bytes_used
-		stat = Sys::Filesystem.stat "C:/"
+		stat = Sys::Filesystem.stat Rails.configuration.repomgmt.repository_root_path
 		(stat.blocks - stat.blocks_free) * stat.block_size
 	end
 

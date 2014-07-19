@@ -6,9 +6,9 @@
 <h4>Festplattenspeicher-Auslastung</h4>
 <div class="progress">
     <div class="progress-bar" style="width: <%= @statistics[:storage][:percent_used] %>%">
-        <%= number_to_human_size @statistics[:storage][:bytes_free] %> frei
-        / <%= number_to_human_size @statistics[:storage][:bytes_used] %> in Benutzung
-        / <%= number_to_human_size @statistics[:storage][:bytes_total] %> insgesamt
+        <%= number_to_human_size @statistics[:storage][:bytes_free], precision: 3 %> frei
+        / <%= number_to_human_size @statistics[:storage][:bytes_used], precision: 3 %> in Benutzung
+        / <%= number_to_human_size @statistics[:storage][:bytes_total], precision: 3 %> insgesamt
     </div>
 </div>
 
