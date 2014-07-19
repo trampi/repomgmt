@@ -8,13 +8,18 @@ At the moment the only language supported is german. No testsuite is provided ye
 == Initial steps
 * {install gitolite}[http://gitolite.com/gitolite/setup.html]
 * clone the gitolite admin repository for later use
+* edit .gitolite.rc of the gitolite user. search "UMASK => 0077," and replace it with "UMASK => 0007,"
+* chmod 770 /home/gitolite/repositories
 * install ruby 1.9.3 (others versions not yet tested)
 * install rails 4.1
-* grant the user under which the application will run write access to the repository root
+* add the user under which the application will run to the gitolite group
 * clone repomgmt
 * configure the application (See in config/application.rb on the bottom)
 * register as a new user and use sqlite to grant it the admin privilege (it is on my todo-list...)
 * (optionally) you are admin now and can register new users. you can disable registration if you like.
+* set git username and email for the repomgmt user in the cloned gitolite admin repository
+  * git config --global user.email "you@example.com"
+  * git config --global user.name "Your Name"
 * enjoy it
 
 === Close registration
