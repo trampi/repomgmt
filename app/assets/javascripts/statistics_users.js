@@ -1,5 +1,5 @@
 window.Repomgmt.StatisticsUser = function(userId) {
-    $.get(Repomgmt.statisticsUserPath(userId), function(statistics) {
+    $.get(Routes.statistics_user_path(userId, {format: "json"}), function(statistics) {
 
         Morris.Line({
             element: 'repository-statistics-commits-user-repositories-history',

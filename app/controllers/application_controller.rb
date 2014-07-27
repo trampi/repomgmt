@@ -4,14 +4,15 @@ class ApplicationController < ActionController::Base
 	protect_from_forgery with: :exception
 
 	before_action :configure_permitted_parameters, if: :devise_controller?
-	before_action :set_is_admin_for_frontend
+	before_action :set_javascript_globals
 
 	protected
 	def configure_permitted_parameters
 		devise_parameter_sanitizer.for(:sign_up) << :name
 	end
 
-	def set_is_admin_for_frontend
+	def set_javascript_globals
 		gon.is_admin = current_user && current_user.admin?
+		gon.is_logged_in = !!current_user
 	end
 end

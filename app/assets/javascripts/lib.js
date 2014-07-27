@@ -34,8 +34,16 @@ Array.prototype.contains = function(elem) {
     return this.indexOf(elem) !== -1;
 };
 
-Repomgmt.safeArray = function(maybeArray) {
-    return Array.isArray(maybeArray) ? maybeArray : [];
+window.Repomgmt = {
+    safeArray: function(maybeArray) {
+        return Array.isArray(maybeArray) ? maybeArray : [];
+    },
+    isAdmin: function() {
+        return gon.is_admin;
+    },
+    isLoggedIn: function() {
+        return gon.is_logged_in;
+    }
 }
 
 String.prototype.containsCaseInsensitive = function(otherString) {

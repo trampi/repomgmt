@@ -17,7 +17,7 @@ Rails.application.routes.draw do
 			post :solve, on: :member
 			resources :comments, only: [:create]
 		end
-		get 'tasks/:name/new' => 'tasks#new', as: :new_task_new
+		get 'tasks/:name/new' => 'tasks#new', as: :new_task_name
 
 		# statistics for current user and repositories he belongs to
 		resources :statistics_repositories, only: [:index, :show]
@@ -52,9 +52,8 @@ Rails.application.routes.draw do
 	end
 
 	# everyone
-	root :to => redirect('/auth/sign_in')
+	root :to => redirect('auth/sign_in')
 	devise_for :users, path: 'auth'
-	match '*unmatched_route', :to => redirect('/'), via: [:get, :post]
 
 	# Example of regular route:
 	#   get 'products/:id' => 'catalog#view'

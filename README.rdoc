@@ -24,3 +24,6 @@ At the moment the only language supported is german. No testsuite is provided ye
 
 === Close registration
 Look in app/models/user.rb and remove ":registerable, " around line 19.
+
+=== Sub Uri deployment ===
+export RAILS_RELATIVE_URL_ROOT=/repomgmt
