@@ -51,3 +51,4 @@ gem 'bootstrap-datepicker-rails'
 gem 'devise_google_authenticator'
 gem 'gon'
 gem 'js-routes'
+gem 'simplecov', :require => false, :group => :test

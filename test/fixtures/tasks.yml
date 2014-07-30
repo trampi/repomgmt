@@ -1,12 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
+author_user_one_assignee_user_without_public_key:
   version_id: 
-  author_id: 1
-  assignee_id: 1
+  author: user_with_long_public_key
+  assignee: user_with_long_public_key_2
   title: MyString
   message: MyText
   solved: false
+  repository: repository_one
 
 two:
   version_id: 

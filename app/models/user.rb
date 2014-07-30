@@ -11,7 +11,7 @@ class User < ActiveRecord::Base
 	has_many :tasks_authored, class_name: "Task", inverse_of: :author, foreign_key: "author_id"
 
 	# email is automatically validated by devise
-	validates :name, presence: true, uniqueness: true, format: { with: /\A[a-zA-Z0-9]+\z/, message: "darf nur Buchstaben und Zahlen enthalten" }
+	validates :name, presence: true, uniqueness: true, format: { with: /\A[a-zA-Z0-9_]+\z/, message: "darf nur Buchstaben, Zahlen und Unterstriche enthalten" }
 	validates :public_key, public_key: true, uniqueness: true, allow_blank: true
 
 	# Include default devise modules. Others available are:

@@ -1,7 +1,35 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  name: MyString
+admin:
+  name: admin
+  email: admin@admin.admin
+  admin: t
+  gauth_enabled: f
 
-two:
-  name: MyString
+user_one:
+  name: user_one
+  email: user@user.user
+  admin: f
+  gauth_enabled: f
+
+user_without_public_key:
+  name: user_without_public_key
+  email: user_without_public_key@user.user
+  admin: f
+  gauth_enabled: f
+
+user_with_long_public_key:
+  name: user_with_long_public_key
+  email: user_with_long_public_key@user.user
+  admin: f
+  gauth_enabled: f
+  # 2048 bit
+  public_key: ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAv0lIA9qIZSE5s0GYZIVTz4fwLGp9F3OoPJL7nFbd/SVCMgrlJ8+0xAo4J+j18SYmcgnjb2ztjwRRMmftQP2K0YTJ5iwWGVLNkPBcD3QYFkbccactsxnY8oqSqNwLhlWBlFmH7vY1rDMb06UhkG+Uh21WcfEBDz5OXwetDpMnSHZykasDwcwDfAnImXkHn9GerFUGTcMYg0Wzw73hD0DtGv7Fx2cHVHmwSu4mJqpILvXkgBkaetSv7mEkusfEyk4JAMekLoepyg0PsAcYbFaN17ekz2kExKIdjxgnJAiOq/7qIfFV6/y/0o44ySuNGrUCY5IIyD+kzgeSSPqjzqE1Lw== rsa-key-20140727
+
+user_with_long_public_key_2:
+  name: user_with_long_public_key_2
+  email: user_with_long_public_key_2@user.user
+  admin: f
+  gauth_enabled: f
+  # 2048 bit
+  public_key: ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAonxip5DSC1k42plyQyCRpKI0MEZ0c+Gzb3Y6SySrYkBP/VkvGdSCzyzSpjRZGDwuXKpnOxjnrXls1uVwWGY8Wr1r5VyeJFYExxM/ZbSVZVi9NqYOKktgTm8cABdkjxO9wA/DnqjocW6R89o4mSxrsb00VxUV91DM+EhHUN1H0LoyKJJ1h9O4syqPKgg9uslsHr6Cg6ULADIeqGHFnCKIPyg8rD6FtZB5Bo+UarIiRDQT6oQY14phKfoWSa3ra+u22sndKXrJ0m7lYYVE7vHl9/r+0Bdtj7huDap0pCmmhxJ4yl0zSyGNOucXoV0IyH1sRrUT8awiAi8PlogmLhnSDw== rsa-key-20140727

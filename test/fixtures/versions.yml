@@ -3,9 +3,11 @@
 one:
   name: MyString
   due_date: 2014-06-08
-  repository_id: 
+  repository: repository_one
+  delivered: f
 
 two:
   name: MyString
   due_date: 2014-06-08
   repository_id: 
+  delivered: f

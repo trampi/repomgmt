@@ -21,6 +21,7 @@ class RepositoryAccess < ActiveRecord::Base
 		rescue Git::GitExecuteError => e
 			logger.info "Commiting: error"
 			logger.info e
+			return false
 		end
 
 		begin
@@ -28,7 +29,9 @@ class RepositoryAccess < ActiveRecord::Base
 		rescue Git::GitExecuteError => e
 			logger.info "Pushing to gitolite: error"
 			logger.info e
+			return false
 		end
+		return true
 	end
 
 	private
