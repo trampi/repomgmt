@@ -1,5 +1,5 @@
 window.Repomgmt.StatisticsSystem = function() {
-    $.get(Repomgmt.adminStatisticsSystemPath(), function(statistics) {
+    $.get(Routes.admin_statistics_system_path({format: "json"}), function(statistics) {
 
         Morris.Line({
             element: 'repository-statistics-commits-history',

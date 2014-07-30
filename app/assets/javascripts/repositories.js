@@ -2,7 +2,7 @@
 
 window.Repomgmt.UserRelations = function(userIdsInRepository) {
     // adding users to a project
-    $.get(Repomgmt.adminUsersPath(), function(allUsers) {
+    $.get(Routes.admin_users_path({format: "json"}), function(allUsers) {
         var usersInRepository = allUsers.filter(function(user) {
             return userIdsInRepository.contains(user.id);
         });
