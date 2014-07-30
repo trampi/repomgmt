@@ -14,4 +14,10 @@ class ActiveSupport::TestCase
 	fixtures :all
 	GlobalTestSetup.new fixture_path
 
+	def skip_on_travis_ci
+		if ENV.has_key?("TRAVIS_CI") then
+			skip "test broken on travis ci"
+		end
+	end
+
 end

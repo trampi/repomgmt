@@ -19,16 +19,16 @@ class RepositoryAccess < ActiveRecord::Base
 			gitolite_repository.add(:all=>true)
 			gitolite_repository.commit_all "Repomgmt refresh"
 		rescue Git::GitExecuteError => e
-			logger.info "Commiting: error"
-			logger.info e
+			puts "Commiting: error"
+			puts e
 			return false
 		end
 
 		begin
 			gitolite_repository.push
 		rescue Git::GitExecuteError => e
-			logger.info "Pushing to gitolite: error"
-			logger.info e
+			puts "Pushing to gitolite: error"
+			puts e
 			return false
 		end
 		return true

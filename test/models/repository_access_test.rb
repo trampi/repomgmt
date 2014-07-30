@@ -24,6 +24,7 @@ class RepositoryAccessTest < ActiveSupport::TestCase
 	end
 
 	test "repository access commit push" do
+		skip_on_travis_ci
 		assert RepositoryAccess.rewrite_auth
 		assert_equal File.read(Rails.configuration.repomgmt.gitolite_repository + "/conf/gitolite.conf"), <<END
 repo gitolite-admin
