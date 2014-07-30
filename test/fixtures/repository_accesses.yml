@@ -1,9 +1,13 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  user_id: 
-  repository_id: 
+user_one_repository_one:
+  user: user_with_long_public_key
+  repository: repository_one
 
-two:
-  user_id: 
-  repository_id: 
+user_one_repository_two:
+  user: user_with_long_public_key
+  repository: repository_two
+
+user_two_repository_one:
+  user: user_with_long_public_key_2
+  repository: repository_one

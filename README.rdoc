@@ -27,3 +27,4 @@ Look in app/models/user.rb and remove ":registerable, " around line 19.
 
 === Sub Uri deployment ===
 export RAILS_RELATIVE_URL_ROOT=/repomgmt
+rake tmp:cache:clear
