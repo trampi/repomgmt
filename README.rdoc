@@ -1,4 +1,4 @@
-= Repomgmt
+= Repomgmt {<img src="https://travis-ci.org/trampi/repomgmt.svg?branch=master" alt="Build Status" />}[https://travis-ci.org/trampi/repomgmt]
 This is a nice and easy to use webinterface to manage gitolite.
 
 == Under development.
@@ -25,6 +25,6 @@ At the moment the only language supported is german. No testsuite is provided ye
 === Close registration
 Look in app/models/user.rb and remove ":registerable, " around line 19.
 
-=== Sub Uri deployment ===
-export RAILS_RELATIVE_URL_ROOT=/repomgmt
-rake tmp:cache:clear
+=== Sub Uri deployment
+* export RAILS_RELATIVE_URL_ROOT=/repomgmt
+* rake tmp:cache:clear
