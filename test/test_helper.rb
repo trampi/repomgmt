@@ -1,3 +1,6 @@
+require "codeclimate-test-reporter"
+CodeClimate::TestReporter.start
+
 require 'simplecov'
 SimpleCov.start 'rails'
 
@@ -15,7 +18,7 @@ class ActiveSupport::TestCase
 	GlobalTestSetup.new fixture_path
 
 	def skip_on_travis_ci
-		if ENV.has_key?("TRAVIS_CI") then
+		if ENV.has_key?("TRAVIS") then
 			skip "test broken on travis ci"
 		end
 	end

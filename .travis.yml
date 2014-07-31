@@ -5,8 +5,10 @@ rvm:
   - 2.0.0
 cache: bundler
 
-before_script:
-  - export TRAVIS_CI=true
-
 notifications:
   email: false
+
+addons:
+  code_climate:
+    repo_token:
+      secure: "bhmBxuZbWLUyaOmq8T81xEJ+KOxF46NBbkxEMQvmlcf3r7BoODVaga0K8Rj6xVVpaMStSnFfA/KIzoxZhA1gF+/k9kK37cXnWcCljQZp9I0vYTELtdOaHakd+f+NJb+N+seNfbetjRWLLq3xd8KoIZ1AijLBq0phoTMB+/G5HEE="
