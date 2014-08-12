@@ -6,20 +6,22 @@ Even if it was developed with care i can not yet assure that it is ready for any
 At the moment the only language supported is german. No testsuite is provided yet.
 
 == Initial steps
-* {install gitolite}[http://gitolite.com/gitolite/setup.html]
-* clone the gitolite admin repository for later use
-* edit .gitolite.rc of the gitolite user. search "UMASK => 0077," and replace it with "UMASK => 0007,"
-* chmod 770 /home/gitolite/repositories
-* install ruby 1.9.3 (others versions not yet tested)
-* install rails 4.1
-* add the user under which the application will run to the gitolite group
-* clone repomgmt
-* configure the application (See in config/application.rb on the bottom)
-* register as a new user and use sqlite to grant it the admin privilege (it is on my todo-list...)
-* (optionally) you are admin now and can register new users. you can disable registration if you like.
-* set git username and email for the repomgmt user in the cloned gitolite admin repository
+* create a new repomgmt user
+* create a key pair (ssh-keygen)
+* {install gitolite with a new user and use the public key of the repomgmt user}[http://gitolite.com/gitolite/setup.html]
+* as the gitolite user: edit .gitolite.rc of the gitolite user. search "UMASK => 0077," and replace it with "UMASK => 0007,"
+* as the gitolite user (chmod -R 770 /home/gitolite/repositories; chmod 750 /home/gitolite)
+* as root: add repomgmt user to gitolite group (usermod -a -G gitolite repomgmt)
+* as the repomgmt user: clone the gitolite admin repository for later use (git clone gitolite@127.0.0.1:gitolite_admin)
+* as the repomgmt user: install ruby 1.9.3 / 2.0.0 / 2.1.2 (which one you like, maybe use {rvm}[http://rvm.io])
+* as the repomgmt user: install rails 4.1
+* as the repomgmt user: set git username and email for the repomgmt user in the cloned gitolite admin repository
   * git config --global user.email "you@example.com"
   * git config --global user.name "Your Name"
+* as the repomgmt user: clone repomgmt (https://github.com/trampi/repomgmt.git)
+* as the repomgmt user: configure the application (See in config/application.rb on the bottom)
+* register as a new user and use sqlite to grant it the admin privilege (it is on my todo-list...)
+* (optionally) you are admin now and can register new users. you can disable registration if you like.
 * enjoy it
 
 === Close registration
