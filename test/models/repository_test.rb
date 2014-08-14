@@ -47,4 +47,41 @@ class RepositoryTest < ActiveSupport::TestCase
 		# url prefix is set in global_setup.rb
 		assert repositories(:repository_one).get_url == "ssh://gitolite@127.0.0.1/repository_one"
 	end
+
+	test "a repository should have tags" do
+		assert repositories(:repository_one).get_tags.count == 0
+		#assert repositories(:repository_two).get_tags.count == 2
+	end
+
+	test "a repository should have branches" do
+		assert repositories(:repository_one).get_branches.count == 1
+		#assert repositories(:repository_two).get_branches.count == 3
+	end
+
+	test "a repository should have commits on dates" do
+		date = Date.new(2014, 8, 12)
+		commit_date_hash = repositories(:repository_one).get_commits_per_day[0]
+		assert commit_date_hash[:date] == date && commit_date_hash[:commits].count == 3
+	end
+
+	test "commits can be grouped by author" do
+		assert repositories(:repository_one).commits_per_author["Fabian Trampusch"].count == 3
+	end
+
+	test "the current version should be the last delivered one" do
+		assert repositories(:repository_one).current_version == versions(:four)
+	end
+
+	test "the next version should be the next not delivered version" do
+		assert repositories(:repository_one).next_version == versions(:five)
+	end
+
+	test "some statistics about drive usage" do
+		skip_on_windows
+		assert Repository.storage_bytes_free > 1024 * 1024
+		assert Repository.storage_bytes_total > 1024 * 1024
+		assert Repository.storage_bytes_used > 1024 * 1024
+		assert Repository.storage_used_in_percent >= 0 && Repository.storage_used_in_percent <= 100
+	end
+
 end

@@ -11,7 +11,7 @@ module MapDaysToCommits
 		# span a range from first commit to today
 		dates = (first_commit.date.to_date .. Date.today).to_a
 
-		# group the commits by day, e.g. [{"2014-06-02" => [commits]}, {"2014-06-03" => [commits]}]
+		# group the commits by day, e.g. [{date: "2014-06-02", commits: [commits]}, ...]
 		dates.map { |date| {
 			date: date,
 			commits: all_commits.find_all {|commit| commit.date.to_date == date }

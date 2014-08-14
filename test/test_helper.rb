@@ -21,7 +21,7 @@ class ActiveSupport::TestCase
 
 	def travis_ci?
 		return ENV.has_key?("TRAVIS")
-		end
+	end
 
 	def skip_on_travis_ci
 		if travis_ci? then
@@ -29,4 +29,13 @@ class ActiveSupport::TestCase
 		end
 	end
 
+	def windows?
+		return Gem.win_platform?
+	end
+
+	def skip_on_windows
+		if windows? then
+			skip "test broken on windows"
+		end
+	end
 end
