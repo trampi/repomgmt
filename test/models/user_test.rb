@@ -26,4 +26,27 @@ class UserTest < ActiveSupport::TestCase
 		user.valid?
 		assert user.errors.include?(:public_key)
 	end
+
+	test "open tasks authored should only return open tasks" do
+		user = users(:user_with_long_public_key)
+		tasks = user.open_tasks_authored
+		assert tasks.count == 1 && tasks[0].title == "Open"
+	end
+
+	test "closed tasks assigned should only return closed tasks" do
+		user = users(:user_with_long_public_key_2)
+		tasks = user.closed_tasks_assigned
+		assert tasks.count == 2 && tasks.all? { |task| task.title.include? "Solved" }
+	end
+
+	test "open tasks assigned should only return open tasks" do
+		user = users(:user_with_long_public_key_2)
+		tasks = user.open_tasks_assigned
+		assert tasks.count == 1 && tasks[0].title == "Open"
+	end
+
+	test "tasks visible should only return tasks of projects where the user is part of" do
+		user = users(:user_with_long_public_key_2)
+		assert user.tasks_visible.count == 3
+	end
 end

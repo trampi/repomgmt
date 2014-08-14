@@ -1,18 +1,46 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-author_user_one_assignee_user_without_public_key:
-  version_id: 
+author_user_one_assignee_user_without_public_key_unsolved:
+  version: version_one
   author: user_with_long_public_key
   assignee: user_with_long_public_key_2
-  title: MyString
+  title: Open
   message: MyText
   solved: false
   repository: repository_one
 
-two:
+author_user_one_assignee_user_without_public_key_solved:
   version_id: 
-  author_id: 1
-  assignee_id: 1
-  title: MyString
+  author: user_with_long_public_key
+  assignee: user_with_long_public_key_2
+  title: Solved_1
   message: MyText
-  solved: false
+  solved: true
+  repository: repository_one
+
+author_user_one_assignee_user_without_public_key_solved_2:
+  version: version_two
+  author: user_with_long_public_key
+  assignee: user_with_long_public_key_2
+  title: Solved_2
+  message: MyText
+  solved: true
+  repository: repository_one
+
+invisible_task_for_user_with_long_public_key_2:
+  version: version_two
+  author: user_with_long_public_key
+  assignee:
+  title: Solved_3
+  message: MyText
+  solved: true
+  repository: repository_two
+
+in_progress:
+  assignee: user_without_public_key
+
+not_assigned:
+  assignee:
+
+solved:
+  solved: true

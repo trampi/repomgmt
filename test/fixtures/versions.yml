@@ -1,13 +1,23 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
+version_one:
   name: MyString
   due_date: 2014-06-08
   repository: repository_one
   delivered: f
 
-two:
+version_two:
   name: MyString
   due_date: 2014-06-08
   repository_id: 
   delivered: f
+
+delivered:
+  delivered: t
+
+in_schedule:
+  delivered: f
+
+should_have_been_delivered:
+  delivered: f
+  due_date: 2014-01-01

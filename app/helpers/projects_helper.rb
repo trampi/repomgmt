@@ -15,7 +15,6 @@ module ProjectsHelper
 
 	def task_is_version_checked version
 		is_id_in_params(:version, version.id)
-		#params.fetch(:version, []).find_index { |version_param| version.id.to_s == version_param } != nil
 	end
 
 	def task_is_assignee_checked user
