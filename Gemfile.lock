@@ -60,7 +60,7 @@ GEM
     eventmachine (1.0.3)
     execjs (2.2.1)
     ffi (1.9.3)
-    git (1.2.7)
+    git (1.2.8)
     gon (5.1.2)
       actionpack (>= 2.3.0)
       json
@@ -178,7 +178,7 @@ DEPENDENCIES
   coffee-rails (~> 4.0.0)
   devise
   devise_google_authenticator
-  git
+  git (~> 1.2.8)
   gon
   handlebars_assets
   jbuilder (~> 2.0)

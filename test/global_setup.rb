@@ -12,6 +12,7 @@ class GlobalTestSetup
 		#Rails.configuration.repomgmt.gitolite_bare_repository = tmpdir + "/gitolite-admin-bare"
 		Rails.configuration.repomgmt.gitolite_repository = tmpdir + "/gitolite-admin-clone"
 		Rails.configuration.repomgmt.repository_root_path = tmpdir + "/gitolite-repositories"
+		Rails.configuration.repomgmt.repository_url_prefix = "ssh://gitolite@127.0.0.1/"
 		repomgmt_fixture_archive_path = File.join(fixture_path, "files", "repomgmt_gitolite_fixture.tar")
 
 		File.open(repomgmt_fixture_archive_path) do |repomgmt_fixture_archive_handle|

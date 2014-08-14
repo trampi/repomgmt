@@ -18,12 +18,12 @@ class Repository < ActiveRecord::Base
 	before_save { |record| record.rename_repository record.name if record.persisted? }
 
 	def cache_key_commits
-		last_modification_date = File.mtime(get_path + "objects").to_s
+		last_modification_date = File.mtime(get_path + "/objects").to_s
 		"REPOSITORY_COMMITS_" + id.to_s + "_" + last_modification_date
 	end
 
 	def cache_key_size
-		last_modification_date = File.mtime(get_path + "objects").to_s
+		last_modification_date = File.mtime(get_path + "/objects").to_s
 		"REPOSITORY_SIZE_" + id.to_s + "_" + last_modification_date
 	end
 
@@ -61,7 +61,7 @@ class Repository < ActiveRecord::Base
 	end
 
 	def get_path
-		Pathname.new Rails.configuration.repomgmt.repository_root_path + "/#{name}.git"
+		Rails.configuration.repomgmt.repository_root_path + "/#{name}.git"
 	end
 
 	def size_in_bytes
