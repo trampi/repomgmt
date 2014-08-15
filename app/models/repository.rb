@@ -32,7 +32,7 @@ class Repository < ActiveRecord::Base
 	end
 
 	def read_all_commits
-		return Rails.cache.fetch(cache_key_commits, { expires_in: 1.month }) do
+		return Rails.cache.fetch(cache_key_commits, { expires_in: 5.minutes }) do
 			begin
 				git = Git.bare get_path
 				git.log(100000).to_a
@@ -65,7 +65,7 @@ class Repository < ActiveRecord::Base
 	end
 
 	def size_in_bytes
-		return Rails.cache.fetch(cache_key_size, { expires_in: 1.month }) do
+		return Rails.cache.fetch(cache_key_size, { expires_in: 5.minutes }) do
 			size = 0;
 			Find.find(get_path) { |f| size += File.size(f) if File.file?(f) }
 			size
