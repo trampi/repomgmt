@@ -80,7 +80,7 @@ class RepositoryTest < ActiveSupport::TestCase
 		skip_on_windows
 		assert Repository.storage_bytes_free > 1024 * 1024
 		assert Repository.storage_bytes_total > 1024 * 1024
-		assert Repository.storage_bytes_used > 1024 * 1024
+		assert Repository.storage_bytes_used > 1024
 		assert Repository.storage_used_in_percent >= 0 && Repository.storage_used_in_percent <= 100
 	end
 
