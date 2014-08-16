@@ -96,7 +96,9 @@ class Repository < ActiveRecord::Base
 	def rename_repository newname
 		oldpath = Repository.find(id).get_path
 		newpath = Rails.configuration.repomgmt.repository_root_path + "/#{newname}.git"
-		FileUtils.mv(oldpath, newpath)
+		if oldpath != newpath then
+			FileUtils.mv(oldpath, newpath)
+		end
 	end
 
 	############## CLASS METHODS ##############
