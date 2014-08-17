@@ -1,6 +1,6 @@
-if ENV.has_key?("TRAVIS") then
-    require "codeclimate-test-reporter"
-    CodeClimate::TestReporter.start
+if ENV.has_key?("JENKINS") then
+	require "codeclimate-test-reporter"
+	CodeClimate::TestReporter.start
 end
 
 require 'simplecov'
