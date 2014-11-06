@@ -3,6 +3,26 @@
 
 <%= if current_user.admin? && all_repositories.count == 0 then render "first_steps" end %>
 
+<% if current_user.repositories.any? then %>
+    <h4>Projekte, auf die Sie Zugriff haben:</h4>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th class="col-sm-4">Projektname</th>
+                <th class="col-sm-8 hidden-xs">URL</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% current_user.repositories.each do |repository| %>
+                <tr>
+                    <td><%= repository.name %></td>
+                    <td class="hidden-xs"><a href="<%= repository.get_url %>"><%= repository.get_url %></a></td>
+                </tr>
+            <% end %>
+        </tbody>
+    </table>
+<% end %>
+
 <div class="row">
     <div class="col-md-6">
         <h4>Ihnen zugewiesene, offene Aufgaben:</h4>
