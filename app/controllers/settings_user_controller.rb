@@ -8,6 +8,7 @@ class SettingsUserController < ApplicationController
 	def update
 		@user = current_user
 		if @user.update(user_params) then
+			sign_in @user, :bypass => true # prevent logging out if password changes
 			flash[:success] = "Benutzer #{@user.name} gespeichert."
 			redirect_to settings_user_path
 		else
