@@ -20,9 +20,12 @@ module Repomgmt
     config.i18n.load_path += Dir[Rails.root.join('config', 'locales', '**', '*.{rb,yml}').to_s]
     config.i18n.default_locale = :de
 
+    config.active_record.raise_in_transactional_callbacks = true
     config.autoload_paths += %W["#config.root/app/validators"]
     config.filter_parameters << :gauth_secret << :gauth_enabled << :gauth_tmp << :gauth_tmp_datetime << :gauth_token
-    
+
+    config.action_mailer.default_url_options = { host: 'localhost:3000' }
+
     config.repomgmt = ActiveSupport::OrderedOptions.new
     
     # path to your checked out gitolite admin repository (not the bare repository of gitolite!)
@@ -34,5 +37,7 @@ module Repomgmt
     # configure this to match the directory where your repositories lie in.
     config.repomgmt.repository_root_path = "/var/repomgmt/repositories"
 
+    # configure the commiter email
+    config.repomgmt.email = "repomgmt@example.com"
   end
 end

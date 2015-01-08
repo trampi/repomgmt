@@ -20,7 +20,7 @@ user_without_public_key:
 
 user_with_long_public_key:
   name: user_with_long_public_key
-  email: user_with_long_public_key@user.user
+  email: fabian.trampusch@freenet.de
   admin: f
   gauth_enabled: f
   # 2048 bit

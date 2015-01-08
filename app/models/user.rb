@@ -7,11 +7,11 @@ class User < ActiveRecord::Base
 
 	has_many :repositories, through: :repository_access
 	has_many :repository_access, dependent: :destroy
-	has_many :tasks_assigned, class_name: "Task", inverse_of: :assignee, foreign_key: "assignee_id"
-	has_many :tasks_authored, class_name: "Task", inverse_of: :author, foreign_key: "author_id"
+	has_many :tasks_assigned, class_name: 'Task', inverse_of: :assignee, foreign_key: 'assignee_id'
+	has_many :tasks_authored, class_name: 'Task', inverse_of: :author, foreign_key: 'author_id'
 
 	# email is automatically validated by devise
-	validates :name, presence: true, uniqueness: true, format: { with: /\A[a-zA-Z0-9_]+\z/, message: "darf nur Buchstaben, Zahlen und Unterstriche enthalten" }
+	validates :name, presence: true, uniqueness: true, format: { with: /\A[a-zA-Z0-9_]+\z/, message: 'darf nur Buchstaben, Zahlen und Unterstriche enthalten'}
 	validates :public_key, public_key: true, uniqueness: true, allow_blank: true
 
 	# Include default devise modules. Others available are:
@@ -24,7 +24,9 @@ class User < ActiveRecord::Base
 
 	def commits
 		if @commits.nil? then
-			@commits = repositories.read_all_commits.find_all { |commit| commit.author.name == self.name || commit.author.email == self.email }
+			@commits = repositories.read_all_commits.find_all do |commit|
+				commit.author.name == self.name || commit.author.email == self.email
+			end
 		end
 
 		return @commits
