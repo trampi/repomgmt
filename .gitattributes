@@ -1,1 +1,2 @@
 *.sh binary
+bin/* binary
