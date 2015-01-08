@@ -34,13 +34,15 @@ class RepositoryTest < ActiveSupport::TestCase
 	test "a repository should have a first commit" do
 		skip_on_travis_ci
 		repository = repositories(:repository_one)
-		assert repository.get_first_commit.date.to_s == "2014-08-12 20:52:16 +0200"
+		expected_date = DateTime.parse("2014-08-12 20:52:16 +0200")
+		assert repository.get_first_commit.date == expected_date
 	end
 
 	test "a repository should have a last commit" do
 		skip_on_travis_ci
 		repository = repositories(:repository_one)
-		assert repository.get_last_commit.date.to_s == "2014-08-12 20:53:01 +0200"
+		expected_date = DateTime.parse("2014-08-12 20:53:01 +0200")
+		assert repository.get_last_commit.date == expected_date
 	end
 
 	test "a repository should have url" do
