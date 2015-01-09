@@ -10,7 +10,7 @@ user_one:
   name: user_one
   email: user@user.user
   admin: f
-  gauth_enabled: f
+  gauth_enabled: t
 
 user_without_public_key:
   name: user_without_public_key

@@ -68,4 +68,22 @@ class UserTest < ActiveSupport::TestCase
 		assert commits[repository_one].count == 3
 		assert commits[repository_two].count == 0
 	end
+
+	test 'user should be able to reset his gauth' do
+		user = users(:user_one)
+		assert user.gauth_enabled == 't'
+		user.reset_auth
+		assert user.gauth_enabled == 'f'
+	end
+
+	test 'user as json should not contain any sensitive informations' do
+		user = users(:user_one)
+		expected_keys = ['id', 'name', 'created_at', 'updated_at', 'email', 'admin', 'public_key']
+		assert expected_keys == user.as_json.keys
+	end
+
+	test 'user commits should be mappable to days' do
+		user = users(:user_with_long_public_key)
+		assert user.get_commits_per_day[0][:commits].count == 3
+	end
 end
