@@ -2,6 +2,7 @@
 
 echo "Removing old docker images (if they exist)"
 sudo docker rm -f repomgmt &> /dev/null
+sudo docker pull trampi/repomgmt
 DIR="$( cd "$( dirname "$0" )" && pwd )"
 echo "Starting rails instance and forwarding bash to you..."
 
