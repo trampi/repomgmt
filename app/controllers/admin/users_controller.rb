@@ -1,5 +1,6 @@
 ﻿class Admin::UsersController < ApplicationController
 	include RemovePasswordParamIfEmpty
+	include RewriteAuthorization
 
 	def index
 		@users = User.all
@@ -16,6 +17,7 @@
 	def create
 		@user = User.new(user_params)
 		if @user.save then
+			rewrite_authorization_if_necessary @user
 			flash[:success] = "Benutzer #{@user.name} gespeichert."
 			redirect_to admin_users_path
 		else
@@ -35,8 +37,9 @@
 	end
 
 	def destroy
-		@user = User.find(params[:id]);
+		@user = User.find(params[:id])
 		@user.destroy
+		rewrite_authorization_if_necessary @user
 		flash[:success] = "Benutzer #{@user.name} wurde erfolgreich gelöscht."
 		redirect_to admin_users_path
 	end
@@ -45,6 +48,7 @@
 		@user = User.find(params[:id])
 
 		if @user.update(user_params) then
+			rewrite_authorization_if_necessary @user
 			flash[:success] = "Benutzer #{@user.name} gespeichert."
 			redirect_to admin_users_path
 		else

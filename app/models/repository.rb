@@ -1,30 +1,39 @@
 require 'find'
 
 class Repository < ActiveRecord::Base
-	include RepositoryAccessRefresher
 	extend MapDaysToCommits
+	include MarkForRefreshAuthentication
 
 	default_scope { order(name: :asc) }
 
-	has_many :users, through: :repository_access
-	has_many :repository_access, dependent: :destroy
+	has_many :users, through: :repository_access, after_add: :mark_authentication_for_rewrite, after_remove: :mark_authentication_for_rewrite
+	has_many :repository_access, dependent: :destroy, after_add: :mark_authentication_for_rewrite, after_remove: :mark_authentication_for_rewrite
 	has_many :tasks
 	has_many :versions
 
-	validates :name, presence: true, uniqueness: true, format: { with: /\A[a-zA-Z0-9]+\z/, message: "darf nur Buchstaben und Zahlen enthalten" }
+	validates :name, presence: true, uniqueness: true, format: {with: /\A[a-zA-Z0-9]+\z/, message: 'darf nur Buchstaben und Zahlen enthalten'}
 	validates_presence_of :repository_access # gitolite enforces that a repository has to have at least one user
 
 	before_destroy { |record| record.delete_repository }
 	before_save { |record| record.rename_repository record.name if record.persisted? }
 
+	before_save do
+		mark_authentication_for_rewrite if name_changed?
+		true # we don't want to interfere with other callbacks
+	end
+
+	before_destroy do
+		mark_authentication_for_rewrite
+	end
+
 	def cache_key_commits
-		last_modification_date = File.mtime(get_path + "/objects").to_s
-		"REPOSITORY_COMMITS_" + id.to_s + "_" + last_modification_date
+		last_modification_date = File.mtime(get_path + '/objects').to_s
+		'REPOSITORY_COMMITS_' + id.to_s + '_' + last_modification_date
 	end
 
 	def cache_key_size
-		last_modification_date = File.mtime(get_path + "/objects").to_s
-		"REPOSITORY_SIZE_" + id.to_s + "_" + last_modification_date
+		last_modification_date = File.mtime(get_path + '/objects').to_s
+		'REPOSITORY_SIZE_' + id.to_s + '_' + last_modification_date
 	end
 
 	def get_url
@@ -32,7 +41,7 @@ class Repository < ActiveRecord::Base
 	end
 
 	def read_all_commits
-		return Rails.cache.fetch(cache_key_commits, { expires_in: 5.minutes }) do
+		return Rails.cache.fetch(cache_key_commits, {expires_in: 5.minutes}) do
 			begin
 				git = Git.bare get_path
 				git.log(100000).to_a
@@ -65,7 +74,7 @@ class Repository < ActiveRecord::Base
 	end
 
 	def size_in_bytes
-		return Rails.cache.fetch(cache_key_size, { expires_in: 5.minutes }) do
+		return Rails.cache.fetch(cache_key_size, {expires_in: 5.minutes}) do
 			size = 0;
 			Find.find(get_path) { |f| size += File.size(f) if File.file?(f) }
 			size
@@ -82,11 +91,11 @@ class Repository < ActiveRecord::Base
 	end
 
 	def current_version
-		versions.where("delivered = ?", true).reorder(due_date: :desc).first
+		versions.where('delivered = ?', true).reorder(due_date: :desc).first
 	end
 
 	def next_version
-		versions.where("delivered = ?", false).reorder(due_date: :asc).first
+		versions.where('delivered = ?', false).reorder(due_date: :asc).first
 	end
 
 	def delete_repository
@@ -144,14 +153,14 @@ class Repository < ActiveRecord::Base
 	end
 
 	def self.gitolite_repository_config_path
-		Pathname.new Rails.configuration.repomgmt.gitolite_repository + "/conf/gitolite.conf"
+		Pathname.new Rails.configuration.repomgmt.gitolite_repository + '/conf/gitolite.conf'
 	end
 
 	def self.gitolite_keys_path
-		Pathname.new Rails.configuration.repomgmt.gitolite_repository + "/keydir"
+		Pathname.new Rails.configuration.repomgmt.gitolite_repository + '/keydir'
 	end
 
 	def self.gitolite_keys
-		Dir.glob gitolite_keys_path.join("*")
+		Dir.glob gitolite_keys_path.join('*')
 	end
 end

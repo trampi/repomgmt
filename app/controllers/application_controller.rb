@@ -13,6 +13,6 @@ class ApplicationController < ActionController::Base
 
 	def set_javascript_globals
 		gon.is_admin = current_user && current_user.admin?
-		gon.is_logged_in = !!current_user
+		gon.is_logged_in = !current_user.nil?
 	end
 end

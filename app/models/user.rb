@@ -1,22 +1,30 @@
 class User < ActiveRecord::Base
-	attr_accessor :gauth_token
-	include RepositoryAccessRefresher
 	extend MapDaysToCommits
+	include MarkForRefreshAuthentication
+
+	attr_accessor :gauth_token
 
 	default_scope { order(name: :asc) }
 
-	has_many :repositories, through: :repository_access
-	has_many :repository_access, dependent: :destroy
+	has_many :repositories, through: :repository_access, after_add: :mark_authentication_for_rewrite, after_remove: :mark_authentication_for_rewrite
+	has_many :repository_access, dependent: :destroy, after_add: :mark_authentication_for_rewrite, after_remove: :mark_authentication_for_rewrite
 	has_many :tasks_assigned, class_name: 'Task', inverse_of: :assignee, foreign_key: 'assignee_id'
 	has_many :tasks_authored, class_name: 'Task', inverse_of: :author, foreign_key: 'author_id'
 
 	# email is automatically validated by devise
-	validates :name, presence: true, uniqueness: true, format: { with: /\A[a-zA-Z0-9_]+\z/, message: 'darf nur Buchstaben, Zahlen und Unterstriche enthalten'}
+	validates :name, presence: true, uniqueness: true, format: {with: /\A[a-zA-Z0-9_]+\z/, message: 'darf nur Buchstaben, Zahlen und Unterstriche enthalten'}
 	validates :public_key, public_key: true, uniqueness: true, allow_blank: true
 
 	# Include default devise modules. Others available are:
 	# :confirmable, :lockable, :timeoutable and :omniauthable
 	devise :google_authenticatable, :database_authenticatable, :registerable, :rememberable, :trackable, :validatable
+
+	before_save do
+		mark_authentication_for_rewrite if admin_changed? || name_changed? || public_key_changed?
+		true # we don't want to interfere with other callbacks
+	end
+
+	before_destroy :mark_authentication_for_rewrite
 
 	def has_public_key?
 		SSHKey.valid_ssh_public_key? public_key

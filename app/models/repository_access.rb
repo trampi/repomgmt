@@ -6,37 +6,59 @@ class RepositoryAccess < ActiveRecord::Base
 	validates :repository, presence: true
 
 	def self.rewrite_auth
-		logger.info "Rewriting auth"
-
-		auth_file = File.open Repository.gitolite_repository_config_path, "w"
-		auth_file.write generate_auth_contents
-		auth_file.close
-
-		rewrite_keys
-
-		gitolite_repository = Git.open Repository.gitolite_repository_path
-		begin
-			gitolite_repository.add(:all=>true)
-			gitolite_repository.commit_all "Repomgmt refresh"
-		rescue Git::GitExecuteError => e
-			puts "Commiting: error"
-			puts e
-			return false
-		end
+		logger.debug 'Start rewriting auth'
 
 		begin
-			gitolite_repository.push
-		rescue Git::GitExecuteError => e
-			puts "Pushing to gitolite: error"
-			puts e
-			return false
+			begin
+				auth_file = File.open(Repository.gitolite_repository_config_path, 'w')
+				auth_file.write generate_auth_contents
+				auth_file.close
+			rescue => e
+				logger.error 'Failed writing users / keys to gitolite.conf'
+				logger.error(e)
+				fail
+			end
+
+			begin
+				rewrite_keys
+			rescue => e
+				logger.error 'Failed rewriting keys'
+				logger.error(e)
+				fail
+			end
+
+			gitolite_repository = nil
+			begin
+				gitolite_repository = commit_changes
+			rescue Git::GitExecuteError => e
+				logger.error 'Error committing changed configuration'
+				logger.error(e)
+				fail
+			end
+
+			begin
+				gitolite_repository.push
+			rescue Git::GitExecuteError => e
+				logger.error 'Error pushing changes back to gitolite'
+				logger.error(e)
+				fail
+			end
+			true
+		rescue
+			false
 		end
-		return true
 	end
 
 	private
+	def self.commit_changes
+		gitolite_repository = Git.open Repository.gitolite_repository_path
+		gitolite_repository.add(:all => true)
+		gitolite_repository.commit_all 'Repomgmt refresh'
+		gitolite_repository
+	end
+
 	def self.generate_auth_contents
-		authorization = ""
+		authorization = ''
 
 		authorization << "repo gitolite-admin\n"
 		User.where(:admin => true).each do |admin|
@@ -52,7 +74,7 @@ class RepositoryAccess < ActiveRecord::Base
 			end
 		end
 
-		return authorization
+		authorization
 	end
 
 	def self.remove_all_keyfiles
@@ -63,7 +85,7 @@ class RepositoryAccess < ActiveRecord::Base
 		remove_all_keyfiles
 		User.uncached do
 			User.all.to_a.keep_if { |u| u.has_public_key? }.each do |user|
-				file = File.new Repository.gitolite_keys_path.join("#{user.name}.pub"), "w"
+				file = File.new Repository.gitolite_keys_path.join("#{user.name}.pub"), 'w'
 				file.write user.public_key
 				file.close
 			end

@@ -15,9 +15,10 @@
  *= require bootstrap-datepicker3
  *= require_self
  */
- @import "bootstrap";
+@import "bootstrap-sprockets";
+@import "bootstrap";
 
-/* Generische Klassen */
+/* generic classes */
 .field_with_errors {
     @include form-control-validation($state-danger-text, $state-danger-text, $state-danger-bg);
 }
@@ -34,7 +35,7 @@
     cursor: pointer;
 }
 
-/* Applikationsspezifische styles */
+/* application specific styles */
 
 body {
     background-image: image-url("background.png");
@@ -58,7 +59,7 @@ h1, h2, h3 {
 }
 
 .table-input td:first-child {
-    padding-top: 14px; // Abstand für die Repository-Benutzer-Tabelle beim Bearbeiten
+    padding-top: 14px; /* distance for the repository-user-table on editing */
 }
 
 .login {

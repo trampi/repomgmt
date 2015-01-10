@@ -1,4 +1,6 @@
 ﻿class Admin::RepositoriesController < ApplicationController
+	include RewriteAuthorization
+
 	def index
 		@repositories = Repository.all
 	end
@@ -15,6 +17,7 @@
 		@repository = Repository.new(repository_params)
 		@repository.users = User.find(user_ids || [])
 		if @repository.save then
+			rewrite_authorization_if_necessary @repository
 			flash[:success] = "Repository #{@repository.name} gespeichert."
 			redirect_to admin_repositories_path
 		else
@@ -30,6 +33,7 @@
 		@repository = Repository.find(params[:id])
 		@repository.users = User.find(user_ids)
 		if @repository.update(repository_params) then
+			rewrite_authorization_if_necessary @repository
 			flash[:success] = "Repository #{@repository.name} gespeichert."
 			redirect_to admin_repositories_path
 		else
@@ -40,6 +44,7 @@
 	def destroy
 		@repository = Repository.find(params[:id]);
 		@repository.destroy
+		rewrite_authorization_if_necessary @repository
 		flash[:success] = "Repository #{@repository.name} wurde erfolgreich gelöscht."
 		redirect_to admin_repositories_path
 	end

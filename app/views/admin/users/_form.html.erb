@@ -1,66 +1,68 @@
 <% if @user.errors.any? then %>
     <div class="alert alert-danger">
-        <ul>
-            <% @user.errors.full_messages.each do |msg| %>
-                <li><%= msg %></li>
-            <% end %>
-        </ul>
+      <ul>
+        <% @user.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+        <% end %>
+      </ul>
     </div>
 <% end %>
 
 <%= form_for [:admin, @user], html: {class: "form-horizontal"} do |f| %>
     <div class="form-group">
-        <%= f.label :mail, "eMail *", class: "col-sm-2 control-label" %>
-        <div class="col-sm-6">
-            <%= f.email_field :email, placeholder: "eMail", class: "form-control" %>
-        </div>
+      <%= f.label :mail, "eMail *", class: "col-sm-2 control-label" %>
+      <div class="col-sm-6">
+        <%= f.email_field :email, placeholder: "eMail", class: "form-control" %>
+      </div>
     </div>
     <div class="form-group">
-        <%= f.label :name, "Name *", class: "col-sm-2 control-label" %>
-        <div class="col-sm-6">
-            <%= f.text_field :name, placeholder: "Name", class: "form-control" %>
-        </div>
+      <%= f.label :name, "Name *", class: "col-sm-2 control-label" %>
+      <div class="col-sm-6">
+        <%= f.text_field :name, placeholder: "Name", class: "form-control" %>
+      </div>
     </div>
     <div class="form-group">
-        <%= f.label :password, "Passwort *", class: "col-sm-2 control-label" %>
-        <div class="col-sm-6">
-            <%= f.password_field :password, placeholder: "Passwort", class: "form-control" %>
-        </div>
+      <%= f.label :password, "Passwort *", class: "col-sm-2 control-label" %>
+      <div class="col-sm-6">
+        <%= f.password_field :password, placeholder: "Passwort", class: "form-control" %>
+      </div>
     </div>
     <div class="form-group">
-        <%= f.label :password_confirmation, "Passwort wdh. *", class: "col-sm-2 control-label" %>
-        <div class="col-sm-6">
-            <%= f.password_field :password_confirmation, placeholder: "Passwort", class: "form-control" %>
-        </div>
+      <%= f.label :password_confirmation, "Passwort wdh. *", class: "col-sm-2 control-label" %>
+      <div class="col-sm-6">
+        <%= f.password_field :password_confirmation, placeholder: "Passwort", class: "form-control" %>
+      </div>
     </div>
     <% if @user.gauth_enabled? then %>
         <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-6">
-                <%= link_to "Zwei-Faktor-Authentifizierug zurücksetzen", reset_two_factor_auth_admin_user_path, method: :post %>
-            </div>
+          <div class="col-sm-offset-2 col-sm-6">
+            <%= link_to "Zwei-Faktor-Authentifizierug zurücksetzen", reset_two_factor_auth_admin_user_path, method: :post %>
+          </div>
         </div>
     <% end %>
     <div class="form-group">
-        <%= f.label :admin, "Administrator", class: "col-sm-2 control-label" %>
-        <div class="col-sm-6">
-            <div class="checkbox">
-                <%= f.check_box :admin %>
-            </div>
+      <%= f.label :admin, "Administrator", class: "col-sm-2 control-label" %>
+      <div class="col-sm-6">
+        <div class="checkbox">
+          <label>
+            <%= f.check_box :admin %>
+          </label>
         </div>
+      </div>
     </div>
     <div class="form-group">
-        <%= f.label :public_key, "Public Key", class: "col-sm-2 control-label" %>
-        <div class="col-sm-6">
-            <%= f.text_area :public_key, placeholder: "Öffentlicher Schlüssel", class: "form-control" %>
-        </div>
+      <%= f.label :public_key, "Public Key", class: "col-sm-2 control-label" %>
+      <div class="col-sm-6">
+        <%= f.text_area :public_key, placeholder: "Öffentlicher Schlüssel", class: "form-control" %>
+      </div>
     </div>
     <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-6">
-            <%= f.submit "Speichern", class: "btn btn-primary" %>
-            <% if @user.persisted? then %>
-                <%= link_to "Löschen", admin_user_path(@user), method: :delete,
-                                    data: { confirm: "Wollen Sie den Benutzer wirklich löschen? "}, class: "btn btn-danger" %>
-            <% end %>
-        </div>
+      <div class="col-sm-offset-2 col-sm-6">
+        <%= f.submit "Speichern", class: "btn btn-primary" %>
+        <% if @user.persisted? then %>
+            <%= link_to "Löschen", admin_user_path(@user), method: :delete,
+                        data: {confirm: "Wollen Sie den Benutzer wirklich löschen? "}, class: "btn btn-danger" %>
+        <% end %>
+      </div>
     </div>
 <% end %>
