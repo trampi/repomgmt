@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
 	has_many :repository_access, dependent: :destroy, after_add: :mark_authentication_for_rewrite, after_remove: :mark_authentication_for_rewrite
 	has_many :tasks_assigned, class_name: 'Task', inverse_of: :assignee, foreign_key: 'assignee_id'
 	has_many :tasks_authored, class_name: 'Task', inverse_of: :author, foreign_key: 'author_id'
+	has_many :commits
 
 	# email is automatically validated by devise
 	validates :name, presence: true, uniqueness: true, format: {with: /\A[a-zA-Z0-9_]+\z/, message: 'darf nur Buchstaben, Zahlen und Unterstriche enthalten'}
@@ -28,16 +29,6 @@ class User < ActiveRecord::Base
 
 	def has_public_key?
 		SSHKey.valid_ssh_public_key? public_key
-	end
-
-	def commits
-		if @commits.nil? then
-			@commits = repositories.read_all_commits.find_all do |commit|
-				commit.author.name == self.name || commit.author.email == self.email
-			end
-		end
-
-		return @commits
 	end
 
 	def reset_auth
@@ -64,8 +55,7 @@ class User < ActiveRecord::Base
 	def commits_per_repository
 		repository_commits = Hash.new
 		repositories.all.each do |repository|
-			commits = repository.read_all_commits.find_all { |commit| commit.author.name == self.name || commit.author.email == self.email }
-			repository_commits[repository] = commits
+			repository_commits[repository] = commits.where repository: repository
 		end
 		repository_commits
 	end
@@ -75,7 +65,7 @@ class User < ActiveRecord::Base
 	end
 
 	def last_commit
-		commits.max_by { |commit| commit.date }
+		commits.order(date: :desc).take
 	end
 
 	def as_json(options = {})

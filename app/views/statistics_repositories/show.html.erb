@@ -1,8 +1,8 @@
 <h3>Statistiken für Projekt <%= @repository.name %></h3>
 
-<p>Dieses Projekt hat <em><%= @repository.read_all_commits.count %> Commits</em> und <em><%= @repository.users.count %> Benutzer</em>.</p>
+<p>Dieses Projekt hat <em><%= @repository.commits.count %> Commits</em> und <em><%= @repository.users.count %> Benutzer</em>.</p>
 
-<% if @repository.read_all_commits.any? then %>
+<% if @repository.commits.any? then %>
     <hr />
     <h4>Commit-Verlauf für Projekt</h4>
     <div id="repository-statistics-commits-history"></div>
@@ -46,10 +46,10 @@
             <th>SHA</th>
         </thead>
         <tbody>
-            <% @repository.read_all_commits.each do |commit| %>
+            <% @repository.commits.each do |commit| %>
                 <tr>
                     <td><%= commit.message %></td>
-                    <td><%= commit.author.name %></td>
+                    <td><%= commit.author_name %></td>
                     <td><%= l commit.date, format: :short %></td>
                     <td><%= commit.sha.slice(0, 10) %></td>
                 <tr>

@@ -19,6 +19,11 @@ class ActiveSupport::TestCase
 	fixtures :all
 	GlobalTestSetup.new fixture_path
 
+	def setup
+		repositories(:repository_one).index_commits
+		repositories(:repository_two).index_commits
+	end
+
 	def travis_ci?
 		return ENV.has_key?("TRAVIS")
 	end

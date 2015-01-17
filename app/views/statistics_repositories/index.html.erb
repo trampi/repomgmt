@@ -18,7 +18,7 @@
                     <td><%= repository.name %></td>
                     <td><%= repository.users.count %></td>
                     <td><%= number_to_human_size repository.size_in_bytes %></td>
-                    <td><%= repository.read_all_commits.count %></td>
+                    <td><%= repository.commits.count %></td>
                     <td><%= l repository.get_last_commit.date, format: :short unless repository.get_last_commit.nil? %></td>
                     <td><%= l repository.get_first_commit.date, format: :short unless repository.get_first_commit.nil? %></td>
                 </tr>

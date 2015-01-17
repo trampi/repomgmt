@@ -45,13 +45,16 @@ Rails.application.routes.draw do
 			# statistics
 			resources :statistics_repositories, only: [:index, :show]
 			resources :statistics_users, only: [:index, :show]
+			get 'statistics/system' => 'statistics_system#index'
 
 			# settings
-			get 'statistics/system' => 'statistics_system#index'
+			get 'system/index'
+			post 'system/reindex_repositories'
 		end
 	end
 
 	# everyone
+	get 'reindex' => 'reindex#index'
 	root :to => redirect('auth/sign_in')
 	devise_for :users, path: 'auth'
 

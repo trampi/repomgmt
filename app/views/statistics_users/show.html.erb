@@ -4,38 +4,40 @@
 
 <% if @user.commits.any? then %>
     <div class="row">
-        <div class="col-md-6">
-            <h4>Commits in Projekten</h4>
-            <div id="repository-statistics-commits-user-repositories"></div>
-        </div>
-        <div class="col-md-6">
-            <h4>Commit-Verlauf</h4>
-            <div id="repository-statistics-commits-user-repositories-history"></div>
-        </div>
+      <div class="col-md-6">
+        <h4>Commits in Projekten</h4>
+
+        <div id="repository-statistics-commits-user-repositories"></div>
+      </div>
+      <div class="col-md-6">
+        <h4>Commit-Verlauf</h4>
+
+        <div id="repository-statistics-commits-user-repositories-history"></div>
+      </div>
     </div>
 
-    <hr />
+    <hr/>
     <h4>Letzte Commits:</h4>
     <table class="table">
-        <thead>
-            <th>Nachricht</th>
-            <th>Benutzer</th>
-            <th>Datum</th>
-            <th>SHA</th>
-        </thead>
-        <tbody>
-            <% @user.commits.each do |commit| %>
-                <tr>
-                    <td><%= commit.message %></td>
-                    <td><%= commit.author.name %></td>
-                    <td><%= l commit.date, format: :short %></td>
-                    <td><%= commit.sha.slice(0, 10) %></td>
-                <tr>
-            <% end %>
-        </tbody>
+      <thead>
+        <th>Nachricht</th>
+        <th>Benutzer</th>
+        <th>Datum</th>
+        <th>SHA</th>
+      </thead>
+      <tbody>
+        <% @user.commits.each do |commit| %>
+            <tr>
+              <td><%= commit.message %></td>
+              <td><%= commit.author_name %></td>
+              <td><%= l commit.date, format: :short %></td>
+              <td><%= commit.sha.slice(0, 10) %></td>
+            <tr>
+        <% end %>
+      </tbody>
     </table>
 
     <script type="text/javascript">
-    Repomgmt.StatisticsUser(<%= @user.id.to_json %>);
+        Repomgmt.StatisticsUser(<%= @user.id.to_json %>);
     </script>
 <% end %>

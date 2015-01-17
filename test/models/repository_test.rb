@@ -28,7 +28,7 @@ class RepositoryTest < ActiveSupport::TestCase
 
 	test 'should be able to get commits from repository' do
 		repository = repositories(:repository_one)
-		assert repository.read_all_commits.count == 3
+		assert repository.commits.count == 3
 	end
 
 	test 'a repository should have a first commit' do
@@ -61,19 +61,21 @@ class RepositoryTest < ActiveSupport::TestCase
 	test 'a repository should have commits on dates' do
 		date = Date.new(2014, 8, 12)
 		commit_date_hash = repositories(:repository_one).get_commits_per_day[0]
-		assert commit_date_hash[:date] == date && commit_date_hash[:commits].count == 3
+		assert_equal date, commit_date_hash[:date]
+		assert_equal 3, commit_date_hash[:commits].count
 	end
 
 	test 'commits can be grouped by author' do
-		assert repositories(:repository_one).commits_per_author['Fabian Trampusch'].count == 3
+		user = users(:user_with_long_public_key)
+		assert_equal 3, repositories(:repository_one).commits_per_author[user].count
 	end
 
 	test 'the current version should be the last delivered one' do
-		assert repositories(:repository_one).current_version == versions(:four)
+		assert_equal versions(:four), repositories(:repository_one).current_version
 	end
 
 	test 'the next version should be the next not delivered version' do
-		assert repositories(:repository_one).next_version == versions(:five)
+		assert_equal versions(:five), repositories(:repository_one).next_version
 	end
 
 	test 'some statistics about drive usage' do
@@ -81,7 +83,15 @@ class RepositoryTest < ActiveSupport::TestCase
 		assert Repository.storage_bytes_free > 1024 * 1024
 		assert Repository.storage_bytes_total > 1024 * 1024
 		assert Repository.storage_bytes_used > 1024
-		assert Repository.storage_used_in_percent >= 0 && Repository.storage_used_in_percent <= 100
+		assert Repository.storage_used_in_percent >= 0
+		assert Repository.storage_used_in_percent <= 100
 	end
 
+	test 'should be able to index commits' do
+		repo = repositories(:repository_one)
+		assert_equal 3, repo.commits.count
+		commit = repo.commits.order(date: :desc).take
+		assert_equal "236fb0a18d4032001f4043252011f95454fe5a27", commit.sha
+		assert_equal "fabian.trampusch@freenet.de", commit.committer_email
+	end
 end

@@ -11,9 +11,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140626152859) do
+ActiveRecord::Schema.define(version: 20150117205447) do
 
-  create_table "comments", force: true do |t|
+  create_table "comments", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "task_id"
     t.text     "message"
@@ -24,13 +24,34 @@ ActiveRecord::Schema.define(version: 20140626152859) do
   add_index "comments", ["task_id"], name: "index_comments_on_task_id"
   add_index "comments", ["user_id"], name: "index_comments_on_user_id"
 
-  create_table "repositories", force: true do |t|
+  create_table "commits", force: :cascade do |t|
+    t.integer  "repository_id"
+    t.integer  "user_id"
+    t.string   "sha"
+    t.string   "branch"
+    t.text     "message"
+    t.datetime "date"
+    t.string   "author_email"
+    t.string   "author_name"
+    t.datetime "commit_date"
+    t.string   "committer_email"
+    t.string   "committer_name"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "commits", ["repository_id"], name: "index_commits_on_repository_id"
+  add_index "commits", ["user_id"], name: "index_commits_on_user_id"
+
+  create_table "repositories", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "last_index_date"
+    t.integer  "size_in_bytes",   limit: 8
   end
 
-  create_table "repository_accesses", force: true do |t|
+  create_table "repository_accesses", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "repository_id"
     t.datetime "created_at"
@@ -40,7 +61,7 @@ ActiveRecord::Schema.define(version: 20140626152859) do
   add_index "repository_accesses", ["repository_id"], name: "index_repository_accesses_on_repository_id"
   add_index "repository_accesses", ["user_id"], name: "index_repository_accesses_on_user_id"
 
-  create_table "tasks", force: true do |t|
+  create_table "tasks", force: :cascade do |t|
     t.integer  "version_id"
     t.integer  "author_id"
     t.integer  "assignee_id"
@@ -55,7 +76,7 @@ ActiveRecord::Schema.define(version: 20140626152859) do
   add_index "tasks", ["repository_id"], name: "index_tasks_on_repository_id"
   add_index "tasks", ["version_id"], name: "index_tasks_on_version_id"
 
-  create_table "users", force: true do |t|
+  create_table "users", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -80,7 +101,7 @@ ActiveRecord::Schema.define(version: 20140626152859) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
-  create_table "versions", force: true do |t|
+  create_table "versions", force: :cascade do |t|
     t.string   "name"
     t.date     "due_date"
     t.integer  "repository_id"

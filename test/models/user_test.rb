@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
+
 	test 'user without public key should not respond as if the user had one' do
 		assert_not users(:user_without_public_key).has_public_key?
 	end

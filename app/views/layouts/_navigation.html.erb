@@ -1,150 +1,158 @@
 <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-    <div class="container">
-        <div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <%= link_to "Repomgmt", root_path, :class => "navbar-brand" %>
-        </div>
-        <div class="collapse navbar-collapse">
-            <ul class="nav navbar-nav">
-                <li class="dropdown <%= 'active' if is_projects_controller? %>">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Aufgaben <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <%= link_to repositories_path do %>
-                                <span class="glyphicon glyphicon-list-alt"></span> Übersicht
-                            <% end %>
-                        </li>
-                        <% current_user.repositories.any? do %>
-                            <li class="divider"></li>
-                            <% current_user.repositories.each do |repo| %>
-                                <li>
-                                    <%= link_to repository_path(repo) do %>
-                                        <span class="glyphicon glyphicon-folder-open"></span> <%= repo.name %>
-                                    <% end %>
-                                </li>
-                            <% end %>
-                        <% end %>
-                    </ul>
-                </li>
-                <% if admin? then %>
-                    <li class="dropdown <%= 'active' if is_repositories_controller? %>">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Projekte <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <%= link_to admin_repositories_path do %>
-                                    <span class="glyphicon glyphicon-list-alt"></span> Übersicht
-                                <% end %>
-                            </li>
-                            <li>
-                                <%= link_to new_admin_repository_path do %>
-                                    <span class="glyphicon glyphicon-plus"></span> Anlegen
-                                <% end %>
-                            </li>
-                            <% all_repositories.any? do %>
-                                <li class="divider"></li>
-                                <% all_repositories.each do |repo| %>
-                                    <li>
-                                        <%= link_to edit_admin_repository_path(repo) do %>
-                                            <span class="glyphicon glyphicon-folder-open"></span> <%= repo.name %>
-                                        <% end %>
-                                    </li>
-                                <% end %>
-                            <% end %>
-                        </ul>
-                    </li>
-                <% end %>
-                <% if admin? then %>
-                    <li class="dropdown <%= 'active' if is_users_controller? %>">
-                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Benutzer <span class="caret"></span></a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <%= link_to admin_users_path do %>
-                                    <span class="glyphicon glyphicon-list-alt"></span> Übersicht
-                                <% end %>
-                            </li>
-                            <li>
-                                <%= link_to new_admin_user_path do %>
-                                    <span class="glyphicon glyphicon-plus"></span> Anlegen
-                                <% end %>
-                            </li>
-                            <% all_users.any? do %>
-                                <li class="divider"></li>
-                                <% all_users.each do |user| %>
-                                    <li>
-                                        <%= link_to edit_admin_user_path(user) do %>
-                                            <span class="glyphicon glyphicon-user"></span> <%= user.name %>
-                                        <% end %>
-                                    </li>
-                                <% end %>
-                            <% end %>
-                        </ul>
-                    </li>
-                <% end %>
-                <li class="dropdown <%= 'active' if is_statistics_controller? %>">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Statistiken <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <% if admin? then %>
-                            <li class="dropdown-header">Administration:</li>
-                            <li>
-                                <%= link_to admin_statistics_system_path do %>
-                                    <span class="glyphicon glyphicon-hdd"></span> System
-                                <% end %>
-                            </li>
-                            <li>
-                                <%= link_to admin_statistics_repositories_path do %>
-                                    <span class="glyphicon glyphicon-folder-open"></span> Projekte
-                                <% end %>
-                            </li>
-                            <li>
-                                <%= link_to admin_statistics_users_path do %>
-                                    <span class="glyphicon glyphicon-user"></span> Benutzer
-                                <% end %>
-                            </li>
-                            <li class="divider"></li>
-                            <li class="dropdown-header">Aktueller Benutzer:</li>
-                        <% end %>
-                        <li>
-                            <%= link_to statistics_repositories_path do %>
-                                <span class="glyphicon glyphicon-folder-open"></span> Projekte
-                            <% end %>
-                        </li>
-                        <li>
-                            <%= link_to statistics_user_path current_user do %>
-                                <span class="glyphicon glyphicon-user"></span> Benutzer
-                            <% end %>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-            <form class="navbar-form navbar-left hidden-sm hidden-xs" role="search">
-                <div class="form-group">
-                    <input id="repomgmt-search" type="text" class="form-control" placeholder="Suche">
-                </div>
-            </form>
-            <ul class="nav navbar-nav navbar-right">
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <%= current_user.name %> <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <%= link_to settings_user_path do %>
-                                <span class="glyphicon glyphicon-user"></span> Einstellungen
-                            <% end %>
-                        </li>
-                        <li>
-                            <%= link_to destroy_user_session_path, method: :delete do %>
-                                <span class="glyphicon glyphicon-lock"></span> Abmelden
-                            <% end %>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </div><!--/.nav-collapse -->
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <%= link_to "Repomgmt", root_path, :class => "navbar-brand" %>
     </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown <%= 'active' if is_projects_controller? %>">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Aufgaben <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li>
+              <%= link_to repositories_path do %>
+                  <span class="glyphicon glyphicon-list-alt"></span> Übersicht
+              <% end %>
+            </li>
+            <% current_user.repositories.any? do %>
+                <li class="divider"></li>
+                <% current_user.repositories.each do |repo| %>
+                    <li>
+                      <%= link_to repository_path(repo) do %>
+                          <span class="glyphicon glyphicon-folder-open"></span> <%= repo.name %>
+                      <% end %>
+                    </li>
+                <% end %>
+            <% end %>
+          </ul>
+        </li>
+        <% if admin? %>
+            <li class="dropdown <%= 'active' if is_repositories_controller? %>">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Projekte <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li>
+                  <%= link_to admin_repositories_path do %>
+                      <span class="glyphicon glyphicon-list-alt"></span> Übersicht
+                  <% end %>
+                </li>
+                <li>
+                  <%= link_to new_admin_repository_path do %>
+                      <span class="glyphicon glyphicon-plus"></span> Anlegen
+                  <% end %>
+                </li>
+                <% all_repositories.any? do %>
+                    <li class="divider"></li>
+                    <% all_repositories.each do |repo| %>
+                        <li>
+                          <%= link_to edit_admin_repository_path(repo) do %>
+                              <span class="glyphicon glyphicon-folder-open"></span> <%= repo.name %>
+                          <% end %>
+                        </li>
+                    <% end %>
+                <% end %>
+              </ul>
+            </li>
+        <% end %>
+        <% if admin? %>
+            <li class="dropdown <%= 'active' if is_users_controller? %>">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Benutzer <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li>
+                  <%= link_to admin_users_path do %>
+                      <span class="glyphicon glyphicon-list-alt"></span> Übersicht
+                  <% end %>
+                </li>
+                <li>
+                  <%= link_to new_admin_user_path do %>
+                      <span class="glyphicon glyphicon-plus"></span> Anlegen
+                  <% end %>
+                </li>
+                <% all_users.any? do %>
+                    <li class="divider"></li>
+                    <% all_users.each do |user| %>
+                        <li>
+                          <%= link_to edit_admin_user_path(user) do %>
+                              <span class="glyphicon glyphicon-user"></span> <%= user.name %>
+                          <% end %>
+                        </li>
+                    <% end %>
+                <% end %>
+              </ul>
+            </li>
+        <% end %>
+        <li class="dropdown <%= 'active' if is_statistics_controller? %>">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">Statistiken <span class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <% if admin? %>
+                <li class="dropdown-header">Administration:</li>
+                <li>
+                  <%= link_to admin_statistics_system_path do %>
+                      <span class="glyphicon glyphicon-hdd"></span> System
+                  <% end %>
+                </li>
+                <li>
+                  <%= link_to admin_statistics_repositories_path do %>
+                      <span class="glyphicon glyphicon-folder-open"></span> Projekte
+                  <% end %>
+                </li>
+                <li>
+                  <%= link_to admin_statistics_users_path do %>
+                      <span class="glyphicon glyphicon-user"></span> Benutzer
+                  <% end %>
+                </li>
+                <li class="divider"></li>
+                <li class="dropdown-header">Aktueller Benutzer:</li>
+            <% end %>
+            <li>
+              <%= link_to statistics_repositories_path do %>
+                  <span class="glyphicon glyphicon-folder-open"></span> Projekte
+              <% end %>
+            </li>
+            <li>
+              <%= link_to statistics_user_path current_user do %>
+                  <span class="glyphicon glyphicon-user"></span> Benutzer
+              <% end %>
+            </li>
+          </ul>
+        </li>
+      </ul>
+      <form class="navbar-form navbar-left hidden-sm hidden-xs" role="search">
+        <div class="form-group">
+          <input id="repomgmt-search" type="text" class="form-control" placeholder="Suche">
+        </div>
+      </form>
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+            <%= current_user.name %> <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li>
+              <%= link_to settings_user_path do %>
+                  <span class="glyphicon glyphicon-user"></span> Einstellungen
+              <% end %>
+            </li>
+            <% if admin? %>
+                <li>
+                  <%= link_to admin_system_index_path do %>
+                      <span class="glyphicon glyphicon-hdd"></span> System
+                  <% end %>
+                </li>
+            <% end %>
+            <li>
+              <%= link_to destroy_user_session_path, method: :delete do %>
+                  <span class="glyphicon glyphicon-lock"></span> Abmelden
+              <% end %>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+    <!--/.nav-collapse -->
+  </div>
 </div>

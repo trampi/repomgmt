@@ -10,8 +10,9 @@ class Repository < ActiveRecord::Base
 	has_many :repository_access, dependent: :destroy, after_add: :mark_authentication_for_rewrite, after_remove: :mark_authentication_for_rewrite
 	has_many :tasks
 	has_many :versions
+	has_many :commits
 
-	validates :name, presence: true, uniqueness: true, format: {with: /\A[a-zA-Z0-9]+\z/, message: 'darf nur Buchstaben und Zahlen enthalten'}
+	validates :name, presence: true, uniqueness: true, format: {with: /\A[a-zA-Z0-9_]+\z/, message: 'darf nur Buchstaben, Zahlen und Unterstriche enthalten'}
 	validates_presence_of :repository_access # gitolite enforces that a repository has to have at least one user
 
 	before_destroy { |record| record.delete_repository }
@@ -26,45 +27,26 @@ class Repository < ActiveRecord::Base
 		mark_authentication_for_rewrite
 	end
 
-	def cache_key_commits
-		last_modification_date = File.mtime(get_path + '/objects').to_s
-		'REPOSITORY_COMMITS_' + id.to_s + '_' + last_modification_date
-	end
-
-	def cache_key_size
-		last_modification_date = File.mtime(get_path + '/objects').to_s
-		'REPOSITORY_SIZE_' + id.to_s + '_' + last_modification_date
-	end
-
 	def get_url
 		Rails.configuration.repomgmt.repository_url_prefix + name
 	end
 
-	def read_all_commits
-		return Rails.cache.fetch(cache_key_commits, {expires_in: 5.minutes}) do
-			begin
-				git = Git.bare get_path
-				git.log(100000).to_a
-			rescue Git::GitExecuteError
-				[]
-			end
-		end
-	end
-
 	def get_first_commit
-		read_all_commits.min_by { |commit| commit.date }
+		commits.order(date: :asc).take
 	end
 
 	def get_last_commit
-		read_all_commits.max_by { |commit| commit.date }
+		commits.order(date: :desc).take
 	end
 
 	def get_tags
+		# TODO
 		git = Git.bare get_path
 		git.tags
 	end
 
 	def get_branches
+		# TODO
 		git = Git.bare get_path
 		git.branches
 	end
@@ -73,21 +55,12 @@ class Repository < ActiveRecord::Base
 		Rails.configuration.repomgmt.repository_root_path + "/#{name}.git"
 	end
 
-	def size_in_bytes
-		return Rails.cache.fetch(cache_key_size, {expires_in: 5.minutes}) do
-			size = 0;
-			Find.find(get_path) { |f| size += File.size(f) if File.file?(f) }
-			size
-		end
-	end
-
 	def get_commits_per_day
-		Repository.map_days_to_commits read_all_commits
+		Repository.map_days_to_commits commits
 	end
 
 	def commits_per_author
-		commits = read_all_commits
-		grouped_commits = commits.group_by { |commit| commit.author.name }
+		commits.to_a.group_by { |commit| commit.user }
 	end
 
 	def current_version
@@ -96,6 +69,26 @@ class Repository < ActiveRecord::Base
 
 	def next_version
 		versions.where('delivered = ?', false).reorder(due_date: :asc).first
+	end
+
+	def index_commits
+		commits.destroy_all
+		transaction do
+			read_all_commits.each do |commit|
+				commit_model = Commit.convert(commit)
+				commit_model.repository = self
+				commit_model.user = User.find_by email: commit_model.committer_email
+				commit_model.save
+			end
+
+			self.size_in_bytes = 0
+			Find.find(get_path) { |f| self.size_in_bytes += File.size(f) if File.file?(f) }
+
+			touch :last_index_date
+			save
+		end
+		commits.reload
+		reload
 	end
 
 	def delete_repository
@@ -110,7 +103,23 @@ class Repository < ActiveRecord::Base
 		end
 	end
 
+	private
+
+	def read_all_commits
+		begin
+			git = Git.bare get_path
+			git.log(100000).to_a
+		rescue Git::GitExecuteError => e
+			logger.error 'Failed fetching commits'
+			logger.error e
+			[]
+		end
+	end
+
 	############## CLASS METHODS ##############
+
+	public
+
 	def self.commits_per_author
 		result = {}
 		Repository.all.each do |repo|
@@ -119,14 +128,8 @@ class Repository < ActiveRecord::Base
 		return result
 	end
 
-	def self.read_all_commits
-		Repository.all.map { |repo| repo.read_all_commits }.flatten
-	end
-
 	def self.get_commits_per_day
-		repos = Repository.all
-		all_commits = repos.collect_concat { |repo| repo.read_all_commits }
-		map_days_to_commits all_commits
+		map_days_to_commits Commit.all
 	end
 
 	def self.storage_used_in_percent
@@ -162,5 +165,11 @@ class Repository < ActiveRecord::Base
 
 	def self.gitolite_keys
 		Dir.glob gitolite_keys_path.join('*')
+	end
+
+	def self.index_commits
+		logger.info "reindex begin at " + DateTime.now.to_s
+		Repository.all.each { |repo| repo.index_commits }
+		logger.info "reindex end at " + DateTime.now.to_s
 	end
 end

@@ -27,17 +27,20 @@ module Repomgmt
     config.action_mailer.default_url_options = { host: 'localhost:3000' }
 
     config.repomgmt = ActiveSupport::OrderedOptions.new
-    
+
     # path to your checked out gitolite admin repository (not the bare repository of gitolite!)
-    config.repomgmt.gitolite_repository = "/var/repomgmt/gitolite-admin-repository"
-    
+    config.repomgmt.gitolite_repository = '/var/repomgmt/gitolite-admin-repository'
+
     # url to use as prefix for repositories.
-    config.repomgmt.repository_url_prefix = "ssh://gitolite@192.168.56.101:"
-    
+    config.repomgmt.repository_url_prefix = 'ssh://gitolite@192.168.56.101:'
+
     # configure this to match the directory where your repositories lie in.
-    config.repomgmt.repository_root_path = "/var/repomgmt/repositories"
+    config.repomgmt.repository_root_path = '/var/repomgmt/repositories'
 
     # configure the commiter email
-    config.repomgmt.email = "repomgmt@example.com"
+    config.repomgmt.email = 'repomgmt@example.com'
+
+    # trigger repository reindex with a HTTP-Get-Request to <application>/reindex?secret=<this_value_here>
+    config.repomgmt.reindex_secret = 'changeme'
   end
 end

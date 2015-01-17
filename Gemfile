@@ -61,4 +61,5 @@ gem 'gon'
 gem 'js-routes'
 gem 'simplecov', :require => false, :group => :test
 gem 'rake', :group => :test
-gem "codeclimate-test-reporter", group: :test, require: nil
+gem 'codeclimate-test-reporter', group: :test, require: nil
+gem 'awesome_print'
