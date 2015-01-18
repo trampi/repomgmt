@@ -21,7 +21,7 @@ class Admin::StatisticsSystemController < ApplicationController
 				:user_count => User.count,
 				:repository_count => Repository.count,
 				:commits_per_author => Repository.commits_per_author.map { |author, commits| {
-						:author => author.name,
+						:author => (!author.nil? && author.email) || commits[0].author_email,
 						:commits => commits.count
 				} },
 				:commit_count => Commit.count

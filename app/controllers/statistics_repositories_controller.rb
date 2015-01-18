@@ -15,11 +15,11 @@ class StatisticsRepositoriesController < ApplicationController
 				:repository => repository,
 				:commits_history => repository.get_commits_per_day.map { |date_and_commits| {
 						date: date_and_commits[:date],
-						commits: date_and_commits[:commits].count() # we do not need all commits, just the count of commits per day
+						commits: date_and_commits[:commits].count # we do not need all commits, just the count of commits per day
 				} },
 				:committer => repository.commits_per_author.map { |user, commits| {
-						:name => user.name,
-						:commits => commits.count()
+						:name => (!user.nil? && user.email) || commits[0].author_email,
+						:commits => commits.count
 				} }
 		}
 	end

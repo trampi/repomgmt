@@ -94,4 +94,14 @@ class RepositoryTest < ActiveSupport::TestCase
 		assert_equal "236fb0a18d4032001f4043252011f95454fe5a27", commit.sha
 		assert_equal "fabian.trampusch@freenet.de", commit.committer_email
 	end
+
+	test 'repository should be marked with rewrite necessary when name changes' do
+		repo = repositories(:repository_one)
+		repo.name = 'new_name'
+		repo.save
+		assert repo.instance_variable_get(:@authentication_rewrite_necessary)
+
+		repo.name = 'repository_one'
+		repo.save
+	end
 end

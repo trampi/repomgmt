@@ -27,10 +27,23 @@ class Admin::StatisticsSystemControllerTest < ActionController::TestCase
 		assert_equal 5, statistics[:user_count]
 		assert_equal 2, statistics[:repository_count]
 
-		assert_equal 'user_with_long_public_key', statistics[:commits_per_author][0][:author]
+		assert_equal 'fabian.trampusch@freenet.de', statistics[:commits_per_author][0][:author]
 		assert_equal 3, statistics[:commits_per_author][0][:commits]
 
 		assert_equal 3, statistics[:commit_count]
+	end
+
+	test 'commit without user should not fail' do
+		repository = repositories(:repository_one)
+		Commit.create repository: repository, author_email: 'test@example.com', date: Date.new(2015, 1, 18), sha: 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3'
+
+		sign_in users(:admin)
+		get :index
+		assert_response :success
+
+		statistics = assigns[:statistics]
+		assert_equal 'test@example.com', statistics[:commits_per_author].last[:author]
+		assert_equal 1, statistics[:commits_per_author].last[:commits]
 	end
 
 end

@@ -3,61 +3,62 @@
 <p>Dieses Projekt hat <em><%= @repository.commits.count %> Commits</em> und <em><%= @repository.users.count %> Benutzer</em>.</p>
 
 <% if @repository.commits.any? then %>
-    <hr />
+    <hr/>
     <h4>Commit-Verlauf für Projekt</h4>
     <div id="repository-statistics-commits-history"></div>
 
-    <hr />
+    <hr/>
     <div class="row">
-        <div class="col-md-4">
-            <h4>Committer</h4>
-            <div id="repository-statistics-commiters"></div>
-        </div>
-        <div class="col-md-4">
-            <h4>Tags</h4>
+      <div class="col-md-4">
+        <h4>Committer</h4>
 
-            <% if @repository.get_tags.empty? then %>
-                <p>Es wurden keine Tags gefunden</p>
-            <% else %>
-                <ul>
-                    <% @repository.get_tags.each do |tag| %>
-                        <li><%= tag.name %></li>
-                    <% end %>
-                </ul>
-            <% end %>
-        </div>
-        <div class="col-md-4">
-            <h4>Branches</h4>
+        <div id="repository-statistics-commiters"></div>
+      </div>
+      <div class="col-md-4">
+        <h4>Tags</h4>
+
+        <% if @repository.get_tags.empty? then %>
+            <p>Es wurden keine Tags gefunden</p>
+        <% else %>
             <ul>
-                <% @repository.get_branches.each do |branch| %>
-                    <li><%= branch.name %></li>
-                <% end %>
+              <% @repository.get_tags.each do |tag| %>
+                  <li><%= tag.name %></li>
+              <% end %>
             </ul>
-        </div>
+        <% end %>
+      </div>
+      <div class="col-md-4">
+        <h4>Branches</h4>
+        <ul>
+          <% @repository.get_branches.each do |branch| %>
+              <li><%= branch.name %></li>
+          <% end %>
+        </ul>
+      </div>
     </div>
 
-    <hr />
+    <hr/>
     <h4>Letzte Commits:</h4>
     <table class="table">
-        <thead>
-            <th>Nachricht</th>
-            <th>Benutzer</th>
-            <th>Datum</th>
-            <th>SHA</th>
-        </thead>
-        <tbody>
-            <% @repository.commits.each do |commit| %>
-                <tr>
-                    <td><%= commit.message %></td>
-                    <td><%= commit.author_name %></td>
-                    <td><%= l commit.date, format: :short %></td>
-                    <td><%= commit.sha.slice(0, 10) %></td>
-                <tr>
-            <% end %>
-        </tbody>
+      <thead>
+        <th>Nachricht</th>
+        <th>Benutzer</th>
+        <th>Datum</th>
+        <th>SHA</th>
+      </thead>
+      <tbody>
+        <% @repository.commits.each do |commit| %>
+            <tr>
+              <td><%= commit.message %></td>
+              <td><%= commit.author_name %></td>
+              <td><%= l commit.date, format: :short %></td>
+              <td><%= commit.sha.slice(0, 10) %></td>
+            <tr>
+        <% end %>
+      </tbody>
     </table>
 
     <script type="text/javascript">
-    Repomgmt.StatisticsRepositories(<%= @repository.id.to_json %>);
+        Repomgmt.StatisticsRepositories(<%= @repository.id.to_json %>);
     </script>
 <% end %>
