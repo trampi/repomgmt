@@ -28,6 +28,8 @@ module Repomgmt
 
     config.repomgmt = ActiveSupport::OrderedOptions.new
 
+    config.active_job.queue_adapter = :sidekiq
+
     # path to your checked out gitolite admin repository (not the bare repository of gitolite!)
     config.repomgmt.gitolite_repository = '/var/repomgmt/gitolite-admin-repository'
 
