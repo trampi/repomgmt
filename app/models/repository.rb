@@ -10,7 +10,7 @@ class Repository < ActiveRecord::Base
 	has_many :repository_access, dependent: :destroy, after_add: :mark_authentication_for_rewrite, after_remove: :mark_authentication_for_rewrite
 	has_many :tasks
 	has_many :versions
-	has_many :commits
+	has_many :commits, dependent: :destroy
 
 	validates :name, presence: true, uniqueness: true, format: {with: /\A[a-zA-Z0-9_]+\z/, message: 'darf nur Buchstaben, Zahlen und Unterstriche enthalten'}
 	validates_presence_of :repository_access # gitolite enforces that a repository has to have at least one user

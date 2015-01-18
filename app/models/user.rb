@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
 	has_many :repository_access, dependent: :destroy, after_add: :mark_authentication_for_rewrite, after_remove: :mark_authentication_for_rewrite
 	has_many :tasks_assigned, class_name: 'Task', inverse_of: :assignee, foreign_key: 'assignee_id'
 	has_many :tasks_authored, class_name: 'Task', inverse_of: :author, foreign_key: 'author_id'
-	has_many :commits
+	has_many :commits, dependent: :nullify
 
 	# email is automatically validated by devise
 	validates :name, presence: true, uniqueness: true, format: {with: /\A[a-zA-Z0-9_]+\z/, message: 'darf nur Buchstaben, Zahlen und Unterstriche enthalten'}
