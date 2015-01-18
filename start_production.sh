@@ -1,6 +1,7 @@
 DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 
 export RAILS_ENV=production
+export DISABLE_SPRING=true
 
 $DIR/bin/rake db:migrate
 $DIR/bin/bundle exec sidekiq -c 1 -d --logfile log/sidekiq.log -P tmp/pids/sidekiq.pid
