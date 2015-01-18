@@ -3,8 +3,7 @@ class Admin::SystemController < ApplicationController
 	end
 
 	def reindex_repositories
-		STDERR.puts ReindexRepositoriesJob.perform_later.ai
-		flash[:success] = "Job enqueued"
+		flash[:success] = 'Job enqueued'
 		redirect_to admin_system_index_path
 	end
 end
