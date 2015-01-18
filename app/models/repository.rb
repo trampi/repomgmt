@@ -172,4 +172,8 @@ class Repository < ActiveRecord::Base
 		Repository.all.each { |repo| repo.index_commits }
 		logger.info "reindex end at " + DateTime.now.to_s
 	end
+
+	def self.last_index_date
+		Repository.maximum(:last_index_date)
+	end
 end

@@ -1,7 +1,13 @@
 class Admin::StatisticsSystemController < ApplicationController
 	def index
-		# seems on the first look like business logic but is in fact
-		# data retrieval which should be in a controller.
+
+		commits_history = Rails.cache.fetch("commit_history_#{Repository.last_index_date.to_s}", {expires_in: 1.month}) do
+			Repository.get_commits_per_day.map { |date_and_commits| {
+					date: date_and_commits[:date],
+					commits: date_and_commits[:commits].count # we do not need all commits, just the count of commits per day
+			} }
+		end
+
 		@statistics = {
 				:storage => {
 						:bytes_free => Repository.storage_bytes_free,
@@ -9,10 +15,7 @@ class Admin::StatisticsSystemController < ApplicationController
 						:bytes_total => Repository.storage_bytes_total,
 						:percent_used => Repository.storage_used_in_percent
 				},
-				:commits_history => Repository.get_commits_per_day.map { |date_and_commits| {
-						date: date_and_commits[:date],
-						commits: date_and_commits[:commits].count # we do not need all commits, just the count of commits per day
-				} },
+				:commits_history => commits_history,
 				:repositories => Repository.all.map { |repo| {
 						:name => repo.name,
 						:size_in_bytes => repo.size_in_bytes,
