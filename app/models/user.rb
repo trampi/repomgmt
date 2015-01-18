@@ -18,7 +18,11 @@ class User < ActiveRecord::Base
 
 	# Include default devise modules. Others available are:
 	# :confirmable, :lockable, :timeoutable and :omniauthable
-	devise :google_authenticatable, :database_authenticatable, :registerable, :rememberable, :trackable, :validatable
+	if Rails.configuration.repomgmt.disable_public_registration
+		devise :google_authenticatable, :database_authenticatable, :rememberable, :trackable, :validatable
+	else
+		devise :google_authenticatable, :database_authenticatable, :registerable, :rememberable, :trackable, :validatable
+	end
 
 	before_save do
 		mark_authentication_for_rewrite if admin_changed? || name_changed? || public_key_changed?

@@ -1,33 +1,57 @@
 = Repomgmt {<img src="https://travis-ci.org/trampi/repomgmt.svg?branch=master" alt="Build Status" />}[https://travis-ci.org/trampi/repomgmt] {<img src="https://codeclimate.com/github/trampi/repomgmt/badges/coverage.svg" />}[https://codeclimate.com/github/trampi/repomgmt] {<img src="https://codeclimate.com/github/trampi/repomgmt/badges/gpa.svg" />}[https://codeclimate.com/github/trampi/repomgmt]
-This is a nice and easy to use webinterface to manage gitolite.
+A nice and easy to use webinterface to manage gitolite.
 
 == Under development.
 Even if it was developed with care i can not yet assure that it is ready for anything else than a preview.
-At the moment the only language supported is german. No testsuite is provided yet.
+At the moment the only language supported is german.
 
-== Initial steps
-* create a new repomgmt user
-* as the repomgmt user: create a key pair (ssh-keygen)
-* create a new gitolite user
-* as the gitolite user: {install gitolite with a new user and use the public key of the repomgmt user}[http://gitolite.com/gitolite/setup.html]
-* as the gitolite user: edit .gitolite.rc of the gitolite user. search "UMASK => 0077," and replace it with "UMASK => 0007,"
-* as the gitolite user (chmod -R 770 /home/gitolite/repositories; chmod 750 /home/gitolite)
-* as root: add repomgmt user to gitolite group (usermod -a -G gitolite repomgmt)
-* as the repomgmt user: clone the gitolite admin repository for later use (git clone gitolite@127.0.0.1:gitolite_admin)
-* as the repomgmt user: install ruby 1.9.3 / 2.0.0 / 2.1.2 (which one you like, maybe use {rvm}[http://rvm.io])
-* as the repomgmt user: install rails 4.1
-* as the repomgmt user: set git username and email for the repomgmt user in the cloned gitolite admin repository
-  * git config --global user.email "you@example.com"
-  * git config --global user.name "Your Name"
-* as the repomgmt user: clone repomgmt (https://github.com/trampi/repomgmt.git)
-* as the repomgmt user: configure the application (See in config/application.rb on the bottom)
-* register as a new user and use sqlite to grant it the admin privilege (it is on my todo-list...)
-* (optionally) you are admin now and can register new users. you can disable registration if you like.
-* enjoy it
+== Installation guide for Linux
+* create the needed users and add the +repomgmt+ user to the +gitolite+ group
+    useradd repomgmt
+    useradd gitolite
+    usermod -a -G gitolite repomgmt
 
-=== Close registration
-Look in app/models/user.rb and remove ":registerable, " around line 19.
+* as the repomgmt user: create a public and a private key
+    ssh-keygen
+* {install gitolite as the new gitolite user and use the public key of the repomgmt user}[http://gitolite.com/gitolite/setup.html]
+* as the gitolite user:
+
+  * edit +.gitolite.rc+ of the _gitolite_-user. search for
+      UMASK => 0077,
+    and replace it with
+      UMASK => 0007,
+  * set the gitolite repository directory permissions so that the repomgmt user can access them
+      chmod -R 770 /home/gitolite/repositories; chmod 750 /home/gitolite
+  * add a post receive hook
+
+    add a line like
+      wget -q http://YOUR_URL_HERE/reindex\?secret=changeme -O /dev/null
+    to +/home/gitolite/.gitolite/hooks/common/post-receive+
+    (the secret +changeme+ can be set in the application.rb)
+
+    run now
+      gitolite setup
+    to set the hook up
+* as the repomgmt user:
+  * clone the gitolite admin repository for later use
+      git clone gitolite@127.0.0.1:gitolite_admin
+  * install ruby 2.2 and rails 4.2 ({rvm works great for that}[http://rvm.io])
+  * set git username and email for the repomgmt user in the cloned gitolite admin repository
+      git config --global user.email "you@example.com"
+      git config --global user.name "Your Name"
+  * check out a fresh copy of repomgmt and run the tests
+      git clone https://github.com/trampi/repomgmt.git repomgmt
+      cd repomgmt
+      rake
+    verify that all tests succeed!
+  * configure the application (see in +config/application.rb+ on the bottom)
+  * setup the database
+      rake db:migrate
+  * start repomgmt by running
+      rails server -e production
+  * register as a new user and use sqlite to grant it the admin privilege (it is on my todo-list...)
 
 === Sub Uri deployment
-* export RAILS_RELATIVE_URL_ROOT=/repomgmt
-* rake tmp:cache:clear
+* before running rails run
+    export RAILS_RELATIVE_URL_ROOT=/repomgmt
+    rake tmp:cache:clear

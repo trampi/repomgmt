@@ -42,5 +42,8 @@ module Repomgmt
 
     # trigger repository reindex with a HTTP-Get-Request to <application>/reindex?secret=<this_value_here>
     config.repomgmt.reindex_secret = 'changeme'
+
+    # disable public registration if set to true
+    config.repomgmt.disable_public_registration = false
   end
 end
