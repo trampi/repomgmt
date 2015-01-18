@@ -1,12 +1,10 @@
 class StatisticsUsersController < ApplicationController
 	def show
-		@user = current_user
+		@user = current_user.admin? ? User.find(params[:id]) : current_user
 		@statistics = user_statistics @user
 	end
 
 	def user_statistics user
-		# seems on the first look like business logic but is in fact 
-		# data retrieval which should be in a controller
 		return {
 			:user => user,
 			:commits_history => user.get_commits_per_day.map { |date_and_commits| {
