@@ -4,8 +4,6 @@ class ProjectsController < ApplicationController
 	end
 
 	def show
-		# seems on the first look like business logic but is in fact 
-		# data retrieval which should be in a controller.
 		@project = current_user.repositories.find(params[:id])
 		@tasks = @project.tasks
 		@filter_set = false

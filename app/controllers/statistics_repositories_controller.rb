@@ -9,8 +9,6 @@ class StatisticsRepositoriesController < ApplicationController
 	end
 
 	def repository_statistics repository
-		# seems on the first look like business logic but is in fact
-		# data retrieval which should be in a controller.
 		return {
 				:repository => repository,
 				:commits_history => repository.get_commits_per_day.map { |date_and_commits| {
