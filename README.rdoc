@@ -6,6 +6,7 @@ Even if it was developed with care i can not yet assure that it is ready for any
 At the moment the only language supported is german.
 
 == Installation guide for Linux
+* {install and start redis}[http://redis.io/topics/quickstart]
 * create the needed users and add the +repomgmt+ user to the +gitolite+ group
     useradd repomgmt
     useradd gitolite
@@ -42,14 +43,17 @@ At the moment the only language supported is german.
   * check out a fresh copy of repomgmt and run the tests
       git clone https://github.com/trampi/repomgmt.git repomgmt
       cd repomgmt
+      bundle install
       rake
     verify that all tests succeed!
   * configure the application (see in +config/application.rb+ on the bottom)
-  * setup the database
+  * setup the database and your user account (have the public key ready)
       rake db:migrate
+      rake db:seed
   * start repomgmt by running
-      rails server -e production
-  * register as a new user and use sqlite to grant it the admin privilege (it is on my todo-list...)
+      ./start_production.sh
+  * shut it down via
+      ./stop_production.sh
 
 === Sub Uri deployment
 * before running rails run
