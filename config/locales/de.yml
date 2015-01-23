@@ -12,6 +12,19 @@ de:
   version_updated: "Version aktualisiert."
   version_deleted: "Version gelöscht."
 
+  nobody: "Niemand"
+  author: "Autor"
+  assignee: "Bearbeiter"
+  solve: "Abschließen"
+  created_at: "Erstellt"
+  last_modification: "Letzte Bearbeitung"
+  "Yes": "Ja"
+  "No": "Nein"
+  edit: "Bearbeiten"
+  description: "Beschreibung"
+  no_description: "Keine Beschreibung angegeben."
+  save_comment: "Kommentar speichern"
+
   helpers:
     label:
       confirmed_and_signed_in: "Vielen Dank für Ihre Registrierung. Sie sind jetzt angemeldet."
@@ -30,6 +43,12 @@ de:
       repository:
         one: "Projekt"
         other: "Projekte"
+      version:
+        one: "Version"
+        other: "Versionen"
+      comment:
+        one: "Kommentar"
+        other: "Kommentare"
     attributes:
       task:
         repository: "Projekt"

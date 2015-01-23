@@ -8,27 +8,27 @@ module ApplicationHelper
 	end
 
 	def is_repositories_controller?
-		controller.controller_name == "repositories"
+		controller.controller_name == 'repositories'
 	end
 
 	def is_users_controller?
-		controller.controller_name == "users"
+		controller.controller_name == 'users'
 	end
 
 	def is_statistics_controller?
-		controller.controller_name.starts_with? "statistics"
+		controller.controller_name.starts_with? 'statistics'
 	end
 
 	def is_settings_controller?
-		controller.controller_name.starts_with? "settings"
+		controller.controller_name.starts_with? 'settings'
 	end
 
 	def is_projects_controller?
-		return ["projects", "tasks", "versions"].any?{ |name| controller.controller_name.starts_with? name }
+		return ['projects', 'tasks', 'versions'].any?{ |name| controller.controller_name.starts_with? name }
 	end
 
 	def human_boolean bool
-		bool ? "Ja" : "Nein"
+		bool ? I18n.t('Yes') : I18n.t('No')
 	end
 
 end

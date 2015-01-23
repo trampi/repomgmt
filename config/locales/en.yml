@@ -21,3 +21,30 @@
 
 en:
   hello: "Hello world"
+  nobody: "Nobody"
+  author: "Author"
+  assignee: "Assignee"
+  solve: "Solve"
+  created_at: "Created"
+  last_modification: "Last modification"
+  "Yes": "Yes"
+  "No": "No"
+  edit: "Edit"
+  description: "Description"
+  no_description: "No description given."
+  save_comment: "Save comment"
+
+  activerecord:
+    models:
+      task:
+        one: "Task"
+        other: "Tasks"
+      repository:
+        one: "Project"
+        other: "Projects"
+      version:
+        one: "Version"
+        other: "Versions"
+      comment:
+        one: "Comment"
+        other: "Comments"

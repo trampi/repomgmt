@@ -40,6 +40,8 @@ in_progress:
   assignee: user_without_public_key
 
 not_assigned:
+  repository: repository_two
+  author:
   assignee:
 
 solved:

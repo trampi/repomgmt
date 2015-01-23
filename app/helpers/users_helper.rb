@@ -2,7 +2,7 @@ module UsersHelper
 
 	def user_name_or_nobody user
 		if user.nil? then
-			"Niemand"
+			I18n.t('nobody')
 		else
 			user.name
 		end
