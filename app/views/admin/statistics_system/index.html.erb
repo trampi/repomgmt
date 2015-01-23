@@ -2,36 +2,39 @@
 
 <p>Es existieren <em><%= @statistics[:repository_count] %> Projekte</em> und <em><%= @statistics[:user_count] %> Benutzer</em> mit insgesamt <em><%= @statistics[:commit_count] %> Commits</em>.</p>
 
-<hr />
+<hr/>
 <h4>Festplattenspeicher-Auslastung</h4>
 <div class="progress">
-    <div class="progress-bar" style="width: <%= @statistics[:storage][:percent_used] %>%">
-        <%= number_to_human_size @statistics[:storage][:bytes_free], precision: 3 %> frei
-        / <%= number_to_human_size @statistics[:storage][:bytes_used], precision: 3 %> in Benutzung
-        / <%= number_to_human_size @statistics[:storage][:bytes_total], precision: 3 %> insgesamt
-    </div>
+  <div class="progress-bar" style="width: <%= @statistics[:storage][:percent_used] %>%">
+    <%= number_to_human_size @statistics[:storage][:bytes_free], precision: 3 %> frei
+    / <%= number_to_human_size @statistics[:storage][:bytes_used], precision: 3 %> in Benutzung
+    / <%= number_to_human_size @statistics[:storage][:bytes_total], precision: 3 %> insgesamt
+  </div>
 </div>
 
-<hr />
+<hr/>
 <h4>Commit-Verlauf über alle Projekte</h4>
 <div id="repository-statistics-commits-history"></div>
 
-<hr />
+<hr/>
 <div class="row">
-    <div class="col-md-4">
-        <h4>Projekt-Größen</h4>
-        <div id="repository-statistics-sizes"></div>
-    </div>
-    <div class="col-md-4">
-        <h4>Projekt-Commits</h4>
-        <div id="repository-statistics-repositories-commits"></div>
-    </div>
-    <div class="col-md-4">
-        <h4>Benutzer-Commits</h4>
-        <div id="repository-statistics-author-commits"></div>
-    </div>
+  <div class="col-md-4">
+    <h4>Projekt-Größen</h4>
+
+    <div id="repository-statistics-sizes"></div>
+  </div>
+  <div class="col-md-4">
+    <h4>Projekt-Commits</h4>
+
+    <div id="repository-statistics-repositories-commits"></div>
+  </div>
+  <div class="col-md-4">
+    <h4>Benutzer-Commits</h4>
+
+    <div id="repository-statistics-author-commits"></div>
+  </div>
 </div>
 
 <script type="text/javascript">
-Repomgmt.StatisticsSystem();
+    Repomgmt.StatisticsSystem();
 </script>

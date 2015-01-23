@@ -1,8 +1,8 @@
 <h3><%= t('index.welcome') %></h3>
 <p><%= t('index.hello') %> <em><%= current_user.name %></em>!</p>
 
-<%= if current_user.admin? && all_repositories.count == 0 %>
-    render "first_steps"
+<% if current_user.admin? && all_repositories.count == 0 %>
+    <%= render 'first_steps' %>
 <% end %>
 
 <% if current_user.repositories.any? then %>

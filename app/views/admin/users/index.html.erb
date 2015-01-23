@@ -1,24 +1,28 @@
 <div class="clearfix">
-    <h3 class="pull-left">Benutzerübersicht</h3>
-    <%= link_to new_admin_user_path, class: "pull-right btn btn-default hidden-xs" do %><span class="glyphicon glyphicon-plus"></span> Benutzer anlegen<% end %>
-    <%= link_to new_admin_user_path, class: "pull-right btn btn-default visible-xs" do %><span class="glyphicon glyphicon-plus"></span><% end %>
+  <h3 class="pull-left">Benutzerübersicht</h3>
+  <%= link_to new_admin_user_path, class: "pull-right btn btn-default hidden-xs" do %>
+      <span class="glyphicon glyphicon-plus"></span> Benutzer anlegen
+  <% end %>
+  <%= link_to new_admin_user_path, class: "pull-right btn btn-default visible-xs" do %>
+      <span class="glyphicon glyphicon-plus"></span>
+  <% end %>
 </div>
 
 <table class="table table-hover table-striped table-rows-clickable">
-    <thead>
-        <tr>
-            <th class="col-sm-6">Benutzername</th>
-            <th class="col-sm-6">Zugeordnete Projekte</th>
+  <thead>
+    <tr>
+      <th class="col-sm-6">Benutzername</th>
+      <th class="col-sm-6">Zugeordnete Projekte</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @users.each do |user| %>
+        <tr data-href="<%= edit_admin_user_path user %>" class="<%= 'warning' unless user.has_public_key? %>">
+          <td><%= user.name %></td>
+          <td><%= user.repositories.count %></td>
         </tr>
-    </thead>
-    <tbody>
-        <% @users.each do |user| %>
-            <tr data-href="<%= edit_admin_user_path user %>" class="<%= 'warning' unless user.has_public_key? %>">
-                <td><%= user.name %></td>
-                <td><%= user.repositories.count %></td>
-            </tr>
-        <% end %>
-    </tbody>
+    <% end %>
+  </tbody>
 </table>
 
 Legende:<p class="text-warning">Gelbe Benutzer haben noch keinen öffentlichen Schlüssel hinterlegt.</p>

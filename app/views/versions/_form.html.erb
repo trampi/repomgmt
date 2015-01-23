@@ -1,42 +1,42 @@
 <% if @version.errors.any? then %>
     <div class="alert alert-danger">
-        <ul>
-            <% @version.errors.full_messages.each do |msg| %>
-                <li><%= msg %></li>
-            <% end %>
-        </ul>
+      <ul>
+        <% @version.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+        <% end %>
+      </ul>
     </div>
 <% end %>
 
 <%= form_for [@project, @version], html: {class: "form-horizontal"} do |f| %>
     <div class="form-group">
-        <%= f.label :name, "Name *", class: "col-sm-2 control-label" %>
-        <div class="col-sm-6">
-            <%= f.text_field :name, placeholder: "Name", class: "form-control" %>
-        </div>
+      <%= f.label :name, "Name *", class: "col-sm-2 control-label" %>
+      <div class="col-sm-6">
+        <%= f.text_field :name, placeholder: "Name", class: "form-control" %>
+      </div>
     </div>
     <div class="form-group">
-        <%= f.label :due_date, "Auslieferungsdatum", class: "col-sm-2 control-label" %>
-        <div class="col-sm-6">
-            <%= f.date_field :due_date, class: "form-control" %>
-        </div>
+      <%= f.label :due_date, "Auslieferungsdatum", class: "col-sm-2 control-label" %>
+      <div class="col-sm-6">
+        <%= f.date_field :due_date, class: "form-control" %>
+      </div>
     </div>
     <div class="form-group">
-        <%= f.label :delivered, "Ausgeliefert", class: "col-sm-2 control-label" %>
-        <div class="col-sm-6">
-            <div class="checkbox">
-                <%= f.check_box :delivered %>
-            </div>
+      <%= f.label :delivered, "Ausgeliefert", class: "col-sm-2 control-label" %>
+      <div class="col-sm-6">
+        <div class="checkbox">
+          <%= f.check_box :delivered %>
         </div>
+      </div>
     </div>
     <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-6">
-            <%= f.submit "Speichern", class: "btn btn-primary" %>
-            <% if @version.persisted? then %>
-                <%= link_to "Löschen", repository_version_path(@project, 
-                    @version), method: :delete,
-                                data: { confirm: "Wollen Sie diese Version wirklich löschen? "}, class: "btn btn-danger" %>
-            <% end %>
-        </div>
+      <div class="col-sm-offset-2 col-sm-6">
+        <%= f.submit "Speichern", class: "btn btn-primary" %>
+        <% if @version.persisted? then %>
+            <%= link_to "Löschen", repository_version_path(@project,
+                                                           @version), method: :delete,
+                        data: {confirm: "Wollen Sie diese Version wirklich löschen? "}, class: "btn btn-danger" %>
+        <% end %>
+      </div>
     </div>
 <% end %>

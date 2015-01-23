@@ -3,23 +3,23 @@
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
     <%= devise_error_messages! %>
     <div class="form-group">
-        <%= f.email_field :email, autofocus: true, class: 'form-control', placeholder: t('activerecord.attributes.user.email') %>
+      <%= f.email_field :email, autofocus: true, class: 'form-control', placeholder: t('activerecord.attributes.user.email') %>
     </div>
 
     <div class="form-group">
-        <%= f.text_field :name, autofocus: true, class: 'form-control', placeholder: t('activerecord.attributes.user.name') %>
+      <%= f.text_field :name, autofocus: true, class: 'form-control', placeholder: t('activerecord.attributes.user.name') %>
     </div>
 
     <div class="form-group">
-        <%= f.password_field :password, autocomplete: 'off', class: 'form-control', placeholder: t('activerecord.attributes.user.password') %>
+      <%= f.password_field :password, autocomplete: 'off', class: 'form-control', placeholder: t('activerecord.attributes.user.password') %>
     </div>
 
     <div class="form-group">
-        <%= f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control', placeholder: t('activerecord.attributes.user.repeat_password') %>
+      <%= f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control', placeholder: t('activerecord.attributes.user.repeat_password') %>
     </div>
 
     <div class="form-group">
-        <%= f.submit t('sign_up'), class: 'btn btn-primary btn-block' %>
+      <%= f.submit t('sign_up'), class: 'btn btn-primary btn-block' %>
     </div>
 <% end %>
 

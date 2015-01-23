@@ -1,11 +1,11 @@
 <h2>Google-Authenticator</h2>
 <p class="text-left"><%= I18n.t('submit_token_title', {:scope => 'devise'}) %></p>
 
-<%= form_for(resource, :as => resource_name, :url => [resource_name, :checkga], :html => { :method => :put }) do |f| %>
+<%= form_for(resource, :as => resource_name, :url => [resource_name, :checkga], :html => {:method => :put}) do |f| %>
     <%= f.hidden_field :tmpid, {:value => @tmpid} %>
 
     <div class="form-group">
-        <%= f.text_field :gauth_token, :autocomplete => :off, class: "form-control" %>
+      <%= f.text_field :gauth_token, :autocomplete => :off, class: "form-control" %>
     </div>
     <p><%= f.submit I18n.t('submit_token', {:scope => 'devise'}), class: "form-control btn btn-primary" %></p>
 <% end %>

@@ -1,23 +1,27 @@
 <div class="clearfix">
-    <h3 class="pull-left">Projekte</h3>
-    <%= link_to new_admin_repository_path, class: "pull-right btn btn-default hidden-xs" do %><span class="glyphicon glyphicon-plus"></span> Projekt anlegen<% end %>
-    <%= link_to new_admin_repository_path, class: "pull-right btn btn-default visible-xs" do %><span class="glyphicon glyphicon-plus"></span><% end %>
+  <h3 class="pull-left">Projekte</h3>
+  <%= link_to new_admin_repository_path, class: "pull-right btn btn-default hidden-xs" do %>
+      <span class="glyphicon glyphicon-plus"></span> Projekt anlegen
+  <% end %>
+  <%= link_to new_admin_repository_path, class: "pull-right btn btn-default visible-xs" do %>
+      <span class="glyphicon glyphicon-plus"></span>
+  <% end %>
 </div>
 <table class="table table-hover table-striped table-rows-clickable">
-    <thead>
-        <tr>
-            <th class="col-sm-4"><%= t('activerecord.attributes.repository.name') %></th>
-            <th class="col-sm-2">Benutzer</th>
-            <th class="col-sm-6 hidden-xs">URL</th>
+  <thead>
+    <tr>
+      <th class="col-sm-4"><%= t('activerecord.attributes.repository.name') %></th>
+      <th class="col-sm-2">Benutzer</th>
+      <th class="col-sm-6 hidden-xs">URL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @repositories.each do |repository| %>
+        <tr data-href="<%= edit_admin_repository_path repository %>">
+          <td><%= repository.name %></td>
+          <td><%= repository.users.count %></td>
+          <td class="hidden-xs"><a href="<%= repository.get_url %>"><%= repository.get_url %></a></td>
         </tr>
-    </thead>
-    <tbody>
-        <% @repositories.each do |repository| %>
-            <tr data-href="<%= edit_admin_repository_path repository %>">
-                <td><%= repository.name %></td>
-                <td><%= repository.users.count %></td>
-                <td class="hidden-xs"><a href="<%= repository.get_url %>"><%= repository.get_url %></a></td>
-            </tr>
-        <% end %>
-    </tbody>
+    <% end %>
+  </tbody>
 </table>

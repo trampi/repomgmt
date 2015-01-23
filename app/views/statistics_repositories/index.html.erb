@@ -2,28 +2,28 @@
 
 <% if @repositories.any? then %>
     <table class="table table-hover table-striped table-rows-clickable">
-        <thead>
-            <tr>
-                <th class="col-sm-5"><%= t('activerecord.attributes.repository.name') %></th>
-                <th class="col-sm-1">Benutzer</th>
-                <th class="col-sm-1">Größe</th>
-                <th class="col-sm-1">Commits</th>
-                <th class="col-sm-2">Letzter Commit</th>
-                <th class="col-sm-2">Erster Commit</th>
+      <thead>
+        <tr>
+          <th class="col-sm-5"><%= t('activerecord.attributes.repository.name') %></th>
+          <th class="col-sm-1">Benutzer</th>
+          <th class="col-sm-1">Größe</th>
+          <th class="col-sm-1">Commits</th>
+          <th class="col-sm-2">Letzter Commit</th>
+          <th class="col-sm-2">Erster Commit</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @repositories.each do |repository| %>
+            <tr data-href="<%= repository_statistics_link repository %>">
+              <td><%= repository.name %></td>
+              <td><%= repository.users.count %></td>
+              <td><%= number_to_human_size repository.size_in_bytes %></td>
+              <td><%= repository.commits.count %></td>
+              <td><%= l repository.get_last_commit.date, format: :short unless repository.get_last_commit.nil? %></td>
+              <td><%= l repository.get_first_commit.date, format: :short unless repository.get_first_commit.nil? %></td>
             </tr>
-        </thead>
-        <tbody>
-            <% @repositories.each do |repository| %>
-                <tr data-href="<%= repository_statistics_link repository %>">
-                    <td><%= repository.name %></td>
-                    <td><%= repository.users.count %></td>
-                    <td><%= number_to_human_size repository.size_in_bytes %></td>
-                    <td><%= repository.commits.count %></td>
-                    <td><%= l repository.get_last_commit.date, format: :short unless repository.get_last_commit.nil? %></td>
-                    <td><%= l repository.get_first_commit.date, format: :short unless repository.get_first_commit.nil? %></td>
-                </tr>
-            <% end %>
-        </tbody>
+        <% end %>
+      </tbody>
     </table>
 <% else %>
     <p>Sie sind noch keinem Projekt zugeordnet.</p>

@@ -1,6 +1,6 @@
 <%= form_for [@task, @new_comment] do |f| %>
     <div class="form-group">
-        <%= f.text_area :message, class: "form-control" %>
+      <%= f.text_area :message, class: "form-control" %>
     </div>
     <%= f.submit t('comment.save'), class: "btn btn-large btn-primary" %>
 <% end %>
