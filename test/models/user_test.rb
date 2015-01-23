@@ -87,4 +87,9 @@ class UserTest < ActiveSupport::TestCase
 		user = users(:user_with_long_public_key)
 		assert user.get_commits_per_day[0][:commits].count == 3
 	end
+
+	test 'user with no commits should return an empty commit array when mapping to days' do
+		user = users(:user_one)
+		assert_empty user.get_commits_per_day
+	end
 end
