@@ -22,7 +22,7 @@
 		@task = Task.new(task_params)
 		@task.author = current_user
 		if params[:commit] && @task.save then
-			flash[:success] = t(:task_created)
+			flash[:success] = t('task.created')
 			redirect_to repository_path @task.repository
 		else
 			set_fields
@@ -38,7 +38,7 @@
 	def update
 		@task = Task.find params[:id]
 		if params[:commit] && @task.update(task_params) then
-			flash[:success] = t(:task_updated)
+			flash[:success] = t('task.updated')
 			redirect_to repository_path @task.repository
 		else
 			set_fields
@@ -49,7 +49,7 @@
 	def destroy
 		@task = Task.find params[:id]
 		@task.destroy
-		flash[:success] = t(:task_deleted)
+		flash[:success] = t('task.deleted')
 		redirect_to repository_path @task.repository
 	end
 
@@ -57,7 +57,7 @@
 		@task = Task.find params[:id]
 		@task.solved = true
 		@task.save
-		flash[:success] = t(:task_solved)
+		flash[:success] = t('task.solved')
 		redirect_to repository_path @task.repository
 	end
 

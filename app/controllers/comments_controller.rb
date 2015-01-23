@@ -5,9 +5,9 @@ class CommentsController < ApplicationController
 		@comment.user = current_user
 		@comment.message = params[:comment][:message]
 		if @comment.save then
-			flash[:success] = "Ihr Kommentar wurde gespeichert!"
+			flash[:success] = t('comment.saved')
 		else
-			flash[:alert] = "Es trat ein Fehler beim Speichern des Kommentars auf. Haben Sie einen Text eingegeben?"
+			flash[:alert] = t('comment.error_saving')
 		end
 		redirect_to @task
 	end

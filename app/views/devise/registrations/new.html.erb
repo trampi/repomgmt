@@ -1,30 +1,26 @@
-<h1><%= t("sign_up") %></h1>
+<h1><%= t('sign_up') %></h1>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
     <%= devise_error_messages! %>
     <div class="form-group">
-        <%#= f.label :email %>
-        <%= f.email_field :email, autofocus: true, class: "form-control", placeholder: "eMail" %>
+        <%= f.email_field :email, autofocus: true, class: 'form-control', placeholder: t('activerecord.attributes.user.email') %>
     </div>
 
     <div class="form-group">
-        <%#= f.label :email %>
-        <%= f.text_field :name, autofocus: true, class: "form-control", placeholder: "Benutzername" %>
+        <%= f.text_field :name, autofocus: true, class: 'form-control', placeholder: t('activerecord.attributes.user.name') %>
     </div>
 
     <div class="form-group">
-        <%#= f.label :password %>
-        <%= f.password_field :password, autocomplete: "off", class: "form-control", placeholder: "Passwort" %>
+        <%= f.password_field :password, autocomplete: 'off', class: 'form-control', placeholder: t('activerecord.attributes.user.password') %>
     </div>
 
     <div class="form-group">
-        <%#= f.label :password_confirmation %>
-        <%= f.password_field :password_confirmation, autocomplete: "off", class: "form-control", placeholder: "Passwort wiederholen" %>
+        <%= f.password_field :password_confirmation, autocomplete: 'off', class: 'form-control', placeholder: t('activerecord.attributes.user.repeat_password') %>
     </div>
 
     <div class="form-group">
-        <%= f.submit t("sign_up"), class: "btn btn-primary btn-block" %>
+        <%= f.submit t('sign_up'), class: 'btn btn-primary btn-block' %>
     </div>
 <% end %>
 
-<%= render "devise/shared/links" %>
+<%= render 'devise/shared/links' %>

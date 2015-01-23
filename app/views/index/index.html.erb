@@ -1,57 +1,67 @@
-<h3>Wilkommen!</h3>
-<p>Hallo <em><%= current_user.name %></em>!</p>
+<h3><%= t('index.welcome') %></h3>
+<p><%= t('index.hello') %> <em><%= current_user.name %></em>!</p>
 
-<%= if current_user.admin? && all_repositories.count == 0 then render "first_steps" end %>
+<%= if current_user.admin? && all_repositories.count == 0 %>
+    render "first_steps"
+<% end %>
 
 <% if current_user.repositories.any? then %>
-    <h4>Projekte, auf die Sie Zugriff haben:</h4>
+    <h4><%= t('index.projects_accessible') %></h4>
     <table class="table table-striped">
-        <thead>
+      <thead>
+        <tr>
+          <th class="col-sm-4"><%= t('activerecord.attributes.repository.name') %></th>
+          <th class="col-sm-8 hidden-xs">URL</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% current_user.repositories.each do |repository| %>
             <tr>
-                <th class="col-sm-4">Projektname</th>
-                <th class="col-sm-8 hidden-xs">URL</th>
+              <td><%= repository.name %></td>
+              <td class="hidden-xs"><a href="<%= repository.get_url %>"><%= repository.get_url %></a></td>
             </tr>
-        </thead>
-        <tbody>
-            <% current_user.repositories.each do |repository| %>
-                <tr>
-                    <td><%= repository.name %></td>
-                    <td class="hidden-xs"><a href="<%= repository.get_url %>"><%= repository.get_url %></a></td>
-                </tr>
-            <% end %>
-        </tbody>
+        <% end %>
+      </tbody>
     </table>
 <% end %>
 
 <div class="row">
-    <div class="col-md-6">
-        <h4>Ihnen zugewiesene, offene Aufgaben:</h4>
-        <% if current_user.tasks_assigned.any? then %>
-            <% if current_user.open_tasks_assigned.any? then %>
-                <ul>
-                    <% current_user.open_tasks_assigned.each do |task| %>
-                        <li><%= link_to task do %> <%= task.repository.name %> - <%= task.title %> <% end %></li>
-                    <% end %>
-                </ul>
-            <% else %>
-                <p>Ihnen sind aktuell keine Aufgaben zugewiesen.</p>
-            <% end %>
-            <p>In der Vergangenheit haben Sie <%= pluralize(current_user.closed_tasks_assigned.count, "Aufgabe", "Aufgaben") %> erledigt.</p>
-        <% else %>
-            <p>Ihnen sind bisher keine Aufgaben zugewiesen worden.</p>
-        <% end %>
-    </div>
-
-    <div class="col-md-6">
-        <h4>Von Ihnen erstellte, offene Aufgaben:</h4>
-        <% if current_user.open_tasks_authored.any? then %>
+  <div class="col-md-6">
+    <h4><%= t('index.open_assigned_tasks') %></h4>
+    <% if current_user.tasks_assigned.any? then %>
+        <% if current_user.open_tasks_assigned.any? then %>
             <ul>
-                <% current_user.open_tasks_authored.each do |task| %>
-                    <li><%= link_to task do %><%= task.repository.name %> - <%= task.title %><% end %></li>
-                <% end %>
+              <% current_user.open_tasks_assigned.each do |task| %>
+                  <li>
+                    <%= link_to task do %>
+                        <%= task.repository.name %> - <%= task.title %>
+                    <% end %>
+                  </li>
+              <% end %>
             </ul>
         <% else %>
-            <p>Es existiert momentan keine offene Aufgabe, die Sie erstellt haben.</p>
+            <p><%= t('index.no_tasks_assigned') %></p>
         <% end %>
-    </div>
+    <% else %>
+        <p><%= t('index.no_tasks_yet') %></p>
+    <% end %>
+    <p><%= t('index.tasks_solved_in_the_past', tasks: pluralize(current_user.closed_tasks_assigned.count, t('activerecord.models.task.one'), t('activerecord.models.task.other'))) %></p>
+  </div>
+
+  <div class="col-md-6">
+    <h4><%= t('index.tasks_created_by_you') %></h4>
+    <% if current_user.open_tasks_authored.any? then %>
+        <ul>
+          <% current_user.open_tasks_authored.each do |task| %>
+              <li>
+                <%= link_to task do %>
+                    <%= task.repository.name %> - <%= task.title %>
+                <% end %>
+              </li>
+          <% end %>
+        </ul>
+    <% else %>
+        <p><%= t('index.no_tasks_created_by_you') %></p>
+    <% end %>
+  </div>
 </div>

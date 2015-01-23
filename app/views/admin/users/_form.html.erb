@@ -33,6 +33,12 @@
         <%= f.password_field :password_confirmation, placeholder: "Passwort", class: "form-control" %>
       </div>
     </div>
+    <div class="form-group">
+      <%= f.label :locale, class: "col-sm-2 control-label" %>
+      <div class="col-sm-6">
+        <%= f.select :locale, locales_for_select, {}, class: "form-control" %>
+      </div>
+    </div>
     <% if @user.gauth_enabled? then %>
         <div class="form-group">
           <div class="col-sm-offset-2 col-sm-6">

@@ -1,26 +1,18 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# To learn more, please read the Rails Internationalization guide
-# available at http://guides.rubyonrails.org/i18n.html.
-
 en:
-  hello: "Hello world"
+  sign_up: "Register"
+  forgot_password: "Forgotten password?"
+
+  task:
+    created: "Task created."
+    updated: "Task updated."
+    deleted: "Task deleted."
+    solved: "Task solved."
+
+  version:
+    created: "Version created."
+    updated: "Version updated."
+    deleted: "Version deleted."
+
   nobody: "Nobody"
   author: "Author"
   assignee: "Assignee"
@@ -32,8 +24,46 @@ en:
   edit: "Edit"
   description: "Description"
   no_description: "No description given."
-  save_comment: "Save comment"
+  create: "Create"
+  current_user: "Current user"
 
+  navigation:
+    index: "Index"
+    settings: "Settings"
+    log_out: "Log out"
+    system: "System"
+    statistics: "Statistics"
+
+  index:
+    welcome: "Welcome!"
+    hello: "Hello"
+    projects_accessible: "Projects with granted access:"
+    open_assigned_tasks: "Open tasks, assigned to you:"
+    no_tasks_assigned: "You have at the moment no assigned tasks."
+    tasks_solved_in_the_past: "In the past, you have solved %{tasks}."
+    no_tasks_yet: "No tasks are assigned to you yet."
+    tasks_created_by_you: "Open tasks, created by you:"
+    no_tasks_created_by_you: "No open tasks, created by you, exist."
+
+  login:
+    title: "Login"
+    login: "Login"
+
+  comment:
+    saved: "Your comment has been saved!"
+    save: "Save comment"
+    error_saving: "There was an error while saving your comment. Have you entered text?"
+
+#  helpers:
+#    label:
+#      confirmed_and_signed_in: provided by devise
+#      send_instructions: provided by devise
+#      send_paranoid_instructions: provided by devise
+#      user:
+#        remember_me: provided by devise
+#  time:
+#    formats:
+#      short: provided by rails
   activerecord:
     models:
       task:
@@ -48,3 +78,19 @@ en:
       comment:
         one: "Comment"
         other: "Comments"
+      user:
+        one: "User"
+        other: "Users"
+    attributes:
+      repository:
+        name: "Project name"
+      task:
+        repository: "Project"
+        title: "Title"
+      user:
+        name: "User name"
+        email: "eMail"
+        password: "Password"
+        repeat_password: "Repeat password"
+        public_key: "Public key"
+        locale: "Language"

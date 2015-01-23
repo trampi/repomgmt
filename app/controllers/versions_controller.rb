@@ -17,7 +17,7 @@
 	def update
 		@version = Version.find params[:id]
 		if @version.update version_params then
-			flash[:success] = t(:version_updated)
+			flash[:success] = t('version.updated')
 			redirect_to repository_versions_path(@version.repository)
 		else
 			@project = @version.repository
@@ -28,7 +28,7 @@
 	def create
 		@version = Repository.find(params[:repository_id]).versions.build version_params
 		if @version.save then
-			flash[:success] = t(:version_created)
+			flash[:success] = t('version.created')
 			redirect_to repository_versions_path(@version.repository)
 		else
 			@project = Repository.find params[:repository_id]
@@ -40,7 +40,7 @@
 	def destroy
 		@version = Version.find params[:id]
 		@version.destroy
-		flash[:success] = t(:version_deleted)
+		flash[:success] = t('version.deleted')
 		redirect_to repository_versions_path(@version.repository)
 	end
 

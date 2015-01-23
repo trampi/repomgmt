@@ -1,16 +1,17 @@
 de:
-  sign_in: "Anmelden"
   sign_up: "Registrieren"
   forgot_password: "Passwort vergessen?"
 
-  task_created: "Aufgabe erstellt."
-  task_updated: "Aufgabe aktualisiert."
-  task_deleted: "Aufgabe gelöscht."
-  task_solved: "Aufgabe erledigt."
+  task:
+    created: "Aufgabe erstellt."
+    updated: "Aufgabe aktualisiert."
+    deleted: "Aufgabe gelöscht."
+    solved: "Aufgabe erledigt."
 
-  version_created: "Version angelegt."
-  version_updated: "Version aktualisiert."
-  version_deleted: "Version gelöscht."
+  version:
+    created: "Version angelegt."
+    updated: "Version aktualisiert."
+    deleted: "Version gelöscht."
 
   nobody: "Niemand"
   author: "Autor"
@@ -23,7 +24,35 @@ de:
   edit: "Bearbeiten"
   description: "Beschreibung"
   no_description: "Keine Beschreibung angegeben."
-  save_comment: "Kommentar speichern"
+  create: "Anlegen"
+  current_user: "Aktueller Benutzer"
+
+  navigation:
+    index: "Übersicht"
+    settings: "Einstellungen"
+    log_out: "Abmelden"
+    system: "System"
+    statistics: "Statistiken"
+
+  index:
+    welcome: "Willkommen!"
+    hello: "Hallo"
+    projects_accessible: "Projekte, auf die Sie Zugriff haben:"
+    open_assigned_tasks: "Ihnen zugewiesene, offene Aufgaben:"
+    no_tasks_assigned: "Ihnen sind aktuell keine Aufgaben zugewiesen."
+    tasks_solved_in_the_past: "In der Vergangenheit haben Sie %{tasks} erledigt."
+    no_tasks_yet: "Ihnen sind bisher keine Aufgaben zugewiesen worden."
+    tasks_created_by_you: "Von Ihnen erstellte, offene, Aufgaben:"
+    no_tasks_created_by_you: "Es existiert momentan keine offene Aufgabe, die Sie erstellt haben."
+
+  login:
+    title: "Anmeldung"
+    login: "Anmelden"
+
+  comment:
+    saved: "Ihr Kommentar wurde gespeichert!"
+    save: "Kommentar speichern"
+    error_saving: "Es trat ein Fehler beim Speichern des Kommentars auf. Haben Sie einen Text eingegeben?"
 
   helpers:
     label:
@@ -49,11 +78,19 @@ de:
       comment:
         one: "Kommentar"
         other: "Kommentare"
+      user:
+        one: "Benutzer"
+        other: "Benutzer"
     attributes:
+      repository:
+        name: "Projektname"
       task:
         repository: "Projekt"
         title: "Titel"
       user:
+        name: "Benutzername"
         email: "eMail"
         password: "Passwort"
+        repeat_password: "Passwort wiederholen"
         public_key: "Öffentlicher Schlüssel"
+        locale: "Sprache"

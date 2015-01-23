@@ -31,4 +31,8 @@ module ApplicationHelper
 		bool ? I18n.t('Yes') : I18n.t('No')
 	end
 
+	def locales_for_select
+		[['English', 'en'], ['Deutsch', 'de']]
+	end
+
 end
