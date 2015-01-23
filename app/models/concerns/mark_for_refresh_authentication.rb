@@ -1,9 +1,9 @@
 module MarkForRefreshAuthentication
-	extend ActiveSupport::Concern
+  extend ActiveSupport::Concern
 
-	@authentication_rewrite_necessary = false
+  @authentication_rewrite_necessary = false
 
-	def mark_authentication_for_rewrite *args
-		@authentication_rewrite_necessary = true
-	end
+  def mark_authentication_for_rewrite *args
+    @authentication_rewrite_necessary = true
+  end
 end
