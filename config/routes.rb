@@ -7,7 +7,7 @@ Rails.application.routes.draw do
 	# Registered user
 	authenticated :user do
 
-		root :to => 'index#index', :as => :authenticated_root
+		root to: 'index#index', as: :authenticated_root
 
 		# projects
 		resources :repositories, controller: 'projects', path: 'projects', only: [:index, :show] do
@@ -55,7 +55,7 @@ Rails.application.routes.draw do
 
 	# everyone
 	get 'reindex' => 'reindex#index'
-	root :to => redirect('auth/sign_in')
+	root to: redirect('auth/sign_in')
 	devise_for :users, path: 'auth'
 
 	# Example of regular route:

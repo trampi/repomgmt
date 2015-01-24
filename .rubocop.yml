@@ -1,0 +1,5 @@
+Style/EndOfLine:
+  Enabled: false
+
+Metrics/LineLength:
+  Enabled: false

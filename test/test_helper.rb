@@ -1,5 +1,5 @@
-if ENV.has_key?("JENKINS") then
-  require "codeclimate-test-reporter"
+if ENV.key?('JENKINS')
+  require 'codeclimate-test-reporter'
   CodeClimate::TestReporter.start
 end
 
@@ -25,22 +25,18 @@ class ActiveSupport::TestCase
   end
 
   def travis_ci?
-    return ENV.has_key?("TRAVIS")
+    ENV.key?('TRAVIS')
   end
 
   def skip_on_travis_ci
-    if travis_ci? then
-      skip "test broken on travis ci"
-    end
+    skip 'test broken on travis ci' if travis_ci?
   end
 
   def windows?
-    return Gem.win_platform?
+    Gem.win_platform?
   end
 
   def skip_on_windows
-    if windows? then
-      skip "test broken on windows"
-    end
+    skip 'test broken on windows' if windows?
   end
 end
