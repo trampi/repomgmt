@@ -21,10 +21,10 @@ public_key = STDIN.gets.chomp
 user = User.new(name: name, password: password, email: email, public_key: public_key, admin: true)
 
 if user.save
-	puts 'User saved.'
+  puts 'User saved.'
 else
-	puts 'Saving user failed. Please rerun rake db:seed'
-	user.errors.full_messages.each do |msg|
-		puts msg
-	end
+  puts 'Saving user failed. Please rerun rake db:seed'
+  user.errors.full_messages.each do |msg|
+    puts msg
+  end
 end
