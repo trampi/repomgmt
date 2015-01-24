@@ -8,6 +8,7 @@ class ApplicationController < ActionController::Base
   before_action :set_language
 
   protected
+
   def configure_permitted_parameters
     devise_parameter_sanitizer.for(:sign_up) << :name
   end
@@ -18,8 +19,6 @@ class ApplicationController < ActionController::Base
   end
 
   def set_language
-    if current_user && I18n.locale_available?(current_user.locale)
-      I18n.locale = current_user.locale
-    end
+    I18n.locale = current_user.locale if current_user && I18n.locale_available?(current_user.locale)
   end
 end

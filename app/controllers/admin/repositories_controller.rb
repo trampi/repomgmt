@@ -7,16 +7,13 @@ class Admin::RepositoriesController < ApplicationController
 
   def new
     @repository = Repository.new
-
-    if params[:name] then
-      @repository.name = params[:name]
-    end
+    @repository.name = params[:name] if params[:name]
   end
 
   def create
     @repository = Repository.new(repository_params)
     @repository.users = User.find(user_ids || [])
-    if @repository.save then
+    if @repository.save
       rewrite_authorization_if_necessary @repository
       flash[:success] = "Repository #{@repository.name} gespeichert."
       redirect_to admin_repositories_path
@@ -32,7 +29,7 @@ class Admin::RepositoriesController < ApplicationController
   def update
     @repository = Repository.find(params[:id])
     @repository.users = User.find(user_ids)
-    if @repository.update(repository_params) then
+    if @repository.update(repository_params)
       rewrite_authorization_if_necessary @repository
       flash[:success] = "Repository #{@repository.name} gespeichert."
       redirect_to admin_repositories_path
@@ -42,7 +39,7 @@ class Admin::RepositoriesController < ApplicationController
   end
 
   def destroy
-    @repository = Repository.find(params[:id]);
+    @repository = Repository.find(params[:id])
     @repository.destroy
     rewrite_authorization_if_necessary @repository
     flash[:success] = "Repository #{@repository.name} wurde erfolgreich geloescht."
@@ -50,6 +47,7 @@ class Admin::RepositoriesController < ApplicationController
   end
 
   private
+
   def repository_params
     params.require(:repository).permit(:name)
   end

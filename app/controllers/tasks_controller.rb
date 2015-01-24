@@ -12,16 +12,13 @@ class TasksController < ApplicationController
   def new
     @task = Task.new
     set_fields
-
-    if params[:name] then
-      @task.title = params[:name]
-    end
+    @task.title = params[:name] if params[:name]
   end
 
   def create
     @task = Task.new(task_params)
     @task.author = current_user
-    if params[:commit] && @task.save then
+    if params[:commit] && @task.save
       flash[:success] = t('task.created')
       redirect_to repository_path @task.repository
     else
@@ -37,7 +34,7 @@ class TasksController < ApplicationController
 
   def update
     @task = Task.find params[:id]
-    if params[:commit] && @task.update(task_params) then
+    if params[:commit] && @task.update(task_params)
       flash[:success] = t('task.updated')
       redirect_to repository_path @task.repository
     else
@@ -68,7 +65,7 @@ class TasksController < ApplicationController
     @selected_project_id = selected_project_id
     @task.repository = @project
 
-    if @project then
+    if @project
       @versions = @project.versions
       @users = @project.users
     else
@@ -79,11 +76,11 @@ class TasksController < ApplicationController
   end
 
   def selected_project
-    if params[:task] && params[:task][:repository_id] then
+    if params[:task] && params[:task][:repository_id]
       current_user.repositories.find_by_id params[:task][:repository_id]
-    elsif @task.repository then
+    elsif @task.repository
       @task.repository
-    elsif params[:repository_id] then
+    elsif params[:repository_id]
       current_user.repositories.find_by_id params[:repository_id]
     end
   end

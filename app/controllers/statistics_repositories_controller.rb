@@ -8,17 +8,31 @@ class StatisticsRepositoriesController < ApplicationController
     @statistics = repository_statistics @repository
   end
 
-  def repository_statistics repository
-    return {
-        :repository => repository,
-        :commits_history => repository.get_commits_per_day.map { |date_and_commits| {
-            date: date_and_commits[:date],
-            commits: date_and_commits[:commits].count # we do not need all commits, just the count of commits per day
-        } },
-        :committer => repository.commits_per_author.map { |user, commits| {
-            :name => (!user.nil? && user.email) || commits[0].author_email,
-            :commits => commits.count
-        } }
+  def repository_statistics(repository)
+    {
+        repository: repository,
+        commits_history: commits_history,
+        committer: committer
     }
+  end
+
+  private
+
+  def commits_history
+    repository.get_commits_per_day.map do |date_and_commits|
+      {
+          date: date_and_commits[:date],
+          commits: date_and_commits[:commits].count # we do not need all commits, just the count of commits per day
+      }
+    end
+  end
+
+  def committer
+    repository.commits_per_author.map do |user, commits|
+      {
+          name: (!user.nil? && user.email) || commits[0].author_email,
+          commits: commits.count
+      }
+    end
   end
 end

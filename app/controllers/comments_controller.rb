@@ -4,7 +4,7 @@ class CommentsController < ApplicationController
     @comment = @task.comments.build
     @comment.user = current_user
     @comment.message = params[:comment][:message]
-    if @comment.save then
+    if @comment.save
       flash[:success] = t('comment.saved')
     else
       flash[:alert] = t('comment.error_saving')

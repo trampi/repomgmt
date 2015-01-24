@@ -16,7 +16,7 @@ class VersionsController < ApplicationController
 
   def update
     @version = Version.find params[:id]
-    if @version.update version_params then
+    if @version.update version_params
       flash[:success] = t('version.updated')
       redirect_to repository_versions_path(@version.repository)
     else
@@ -27,7 +27,7 @@ class VersionsController < ApplicationController
 
   def create
     @version = Repository.find(params[:repository_id]).versions.build version_params
-    if @version.save then
+    if @version.save test
       flash[:success] = t('version.created')
       redirect_to repository_versions_path(@version.repository)
     else

@@ -8,15 +8,12 @@ class Admin::UsersController < ApplicationController
 
   def new
     @user = User.new
-
-    if params[:name] then
-      @user.name = params[:name]
-    end
+    @user.name = params[:name] if params[:name]
   end
 
   def create
     @user = User.new(user_params)
-    if @user.save then
+    if @user.save
       rewrite_authorization_if_necessary @user
       flash[:success] = "Benutzer #{@user.name} gespeichert."
       redirect_to admin_users_path
@@ -47,7 +44,7 @@ class Admin::UsersController < ApplicationController
   def update
     @user = User.find(params[:id])
 
-    if @user.update(user_params) then
+    if @user.update(user_params)
       rewrite_authorization_if_necessary @user
       flash[:success] = "Benutzer #{@user.name} gespeichert."
       redirect_to admin_users_path
@@ -57,6 +54,7 @@ class Admin::UsersController < ApplicationController
   end
 
   private
+
   def user_params
     params.require(:user).permit(:admin, :email, :name, :password, :password_confirmation, :public_key, :locale)
   end
