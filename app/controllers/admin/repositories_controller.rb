@@ -1,4 +1,4 @@
-﻿class Admin::RepositoriesController < ApplicationController
+class Admin::RepositoriesController < ApplicationController
   include RewriteAuthorization
 
   def index
@@ -45,7 +45,7 @@
     @repository = Repository.find(params[:id]);
     @repository.destroy
     rewrite_authorization_if_necessary @repository
-    flash[:success] = "Repository #{@repository.name} wurde erfolgreich gelöscht."
+    flash[:success] = "Repository #{@repository.name} wurde erfolgreich geloescht."
     redirect_to admin_repositories_path
   end
 

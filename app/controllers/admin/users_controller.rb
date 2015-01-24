@@ -1,4 +1,4 @@
-﻿class Admin::UsersController < ApplicationController
+class Admin::UsersController < ApplicationController
   include RemovePasswordParamIfEmpty
   include RewriteAuthorization
 
@@ -32,7 +32,7 @@
   def reset_two_factor_auth
     @user = User.find(params[:id])
     @user.reset_auth
-    flash[:success] = "Zwei-Faktor-Authentifizierung von #{@user.name} wurde erfolgreich zurückgesetzt."
+    flash[:success] = "Zwei-Faktor-Authentifizierung von #{@user.name} wurde erfolgreich zurueckgesetzt."
     redirect_to admin_users_path
   end
 
@@ -40,7 +40,7 @@
     @user = User.find(params[:id])
     @user.destroy
     rewrite_authorization_if_necessary @user
-    flash[:success] = "Benutzer #{@user.name} wurde erfolgreich gelöscht."
+    flash[:success] = "Benutzer #{@user.name} wurde erfolgreich geloescht."
     redirect_to admin_users_path
   end
 

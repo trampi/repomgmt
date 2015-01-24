@@ -1,4 +1,4 @@
-﻿class TasksController < ApplicationController
+class TasksController < ApplicationController
   def show
     @task = Task.find params[:id]
     @comments = @task.comments

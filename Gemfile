@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.0'
 # Use sqlite3 as the database for Active Record
@@ -60,8 +59,8 @@ gem 'bootstrap-datepicker-rails'
 gem 'devise_google_authenticator'
 gem 'gon'
 gem 'js-routes'
-gem 'simplecov', :require => false, :group => :test
-gem 'rake', :group => :test
+gem 'simplecov', require: false, group: :test
+gem 'rake', group: :test
 gem 'codeclimate-test-reporter', group: :test, require: nil
 gem 'awesome_print'
 gem 'sidekiq'

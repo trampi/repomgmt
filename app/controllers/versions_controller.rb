@@ -1,4 +1,4 @@
-﻿class VersionsController < ApplicationController
+class VersionsController < ApplicationController
   def index
     @project = Repository.find params[:repository_id]
     @versions = @project.versions
