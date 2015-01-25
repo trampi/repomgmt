@@ -119,4 +119,13 @@ class RepositoryTest < ActiveSupport::TestCase
     repo = repositories(:repository_one)
     assert_equal Date.today, repo.last_modification_date.to_date
   end
+
+  test 'should reindex only if necessary' do
+    repo = repositories(:repository_one)
+    last_index = repo.last_index_date
+    last_check = repo.last_check_date
+    repo.index_commits_if_changed
+    assert_equal last_index, repo.last_index_date
+    assert_not_equal last_check, repo.last_check_date
+  end
 end
