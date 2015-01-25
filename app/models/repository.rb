@@ -71,8 +71,11 @@ class Repository < ActiveRecord::Base
     versions.where('delivered = ?', false).reorder(due_date: :asc).first
   end
 
+  def index_commits_if_changed
+    index_commits if last_index_date.nil? || last_modification_date > last_index_date
+  end
+
   def index_commits
-    # TODO: abort if no modification to repository happened
     commits.destroy_all
     transaction do
       read_all_commits.each do |commit|
@@ -83,6 +86,11 @@ class Repository < ActiveRecord::Base
       save
     end
     reload
+  end
+
+  def last_modification_date
+    heads_path = path + '/refs/**/*'
+    Dir.glob(heads_path).map { |file| File.mtime(file) }.max
   end
 
   def calculate_size

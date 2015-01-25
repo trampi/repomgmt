@@ -20,8 +20,8 @@ class ActiveSupport::TestCase
   GlobalTestSetup.new fixture_path
 
   def setup
-    repositories(:repository_one).index_commits
-    repositories(:repository_two).index_commits
+    repositories(:repository_one).index_commits_if_changed
+    repositories(:repository_two).index_commits_if_changed
   end
 
   def travis_ci?
