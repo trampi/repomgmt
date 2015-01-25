@@ -44,6 +44,10 @@ group :development, :test do
   gem 'spring'
 end
 
+group :mysql do
+  gem 'mysql2'
+end
+
 gem 'bootstrap-sass'
 gem 'devise'
 gem 'twitter-typeahead-rails'

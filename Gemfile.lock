@@ -136,6 +136,7 @@ GEM
     morrisjs-rails (0.5.1)
       railties (> 3.1, < 5)
     multi_json (1.10.1)
+    mysql2 (0.3.17)
     net-http-digest_auth (1.4)
     net-http-persistent (2.9.4)
     nokogiri (1.6.5)
@@ -278,6 +279,7 @@ DEPENDENCIES
   js-routes
   mechanize
   morrisjs-rails
+  mysql2
   rails (= 4.2.0)
   rake
   raphael-rails
