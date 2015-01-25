@@ -285,7 +285,7 @@ DEPENDENCIES
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   sidekiq
-  simplecov
+  simplecov (~> 0.9.1)
   spring
   sqlite3
   sshkey

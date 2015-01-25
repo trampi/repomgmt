@@ -103,4 +103,20 @@ class RepositoryTest < ActiveSupport::TestCase
     repo.name = 'repository_one'
     repo.save
   end
+
+  test 'destroying a repository should delete the files of it' do
+    begin
+      repo = repositories(:repository_one)
+      path = repo.path
+      repo.destroy
+      assert_not Dir.exist?(path)
+    ensure
+      cleanup_repository_fixtures
+    end
+  end
+
+  test 'a repository should have a last modification date' do
+    repo = repositories(:repository_one)
+    assert_equal Date.today, repo.last_modification_date.to_date
+  end
 end

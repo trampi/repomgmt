@@ -15,16 +15,15 @@ class Repository < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true, format: {with: /\A[a-zA-Z0-9_]+\z/, message: 'darf nur Buchstaben, Zahlen und Unterstriche enthalten'}
   validates :repository_access, presence: true # gitolite enforces that a repository has to have at least one user
 
-  before_destroy(&:delete_repository)
-  before_save { |record| record.rename_repository record.name if record.persisted? }
-
-  before_save do
-    mark_authentication_for_rewrite if name_changed?
-    true # we don't want to interfere with other callbacks
+  before_destroy do |record|
+    record.delete_repository
+    mark_authentication_for_rewrite
   end
 
-  before_destroy do
-    mark_authentication_for_rewrite
+  before_save do |record|
+    record.rename_repository record.name if record.persisted?
+    mark_authentication_for_rewrite if name_changed?
+    true # we don't want to interfere with other callbacks
   end
 
   def url
@@ -119,12 +118,10 @@ class Repository < ActiveRecord::Base
     []
   end
 
-  ############## CLASS METHODS ##############
-
   def self.commits_per_author
     result = {}
     Repository.all.each do |repo|
-      result.merge!(repo.commits_per_author) { |_key, v1, v2| v1 + v2 }
+      result.merge!(repo.commits_per_author)  { |_key, v1, v2| v1 + v2 }
     end
     result
   end

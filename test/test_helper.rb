@@ -24,6 +24,10 @@ class ActiveSupport::TestCase
     repositories(:repository_two).index_commits_if_changed
   end
 
+  def cleanup_repository_fixtures
+    GlobalTestSetup.new fixture_path
+  end
+
   def travis_ci?
     ENV.key?('TRAVIS')
   end

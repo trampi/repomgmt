@@ -58,7 +58,7 @@ gem 'bootstrap-datepicker-rails'
 gem 'devise_google_authenticator'
 gem 'gon'
 gem 'js-routes'
-gem 'simplecov', require: false, group: :test
+gem 'simplecov', '~> 0.9.1', require: false, group: :test
 gem 'rake', group: :test
 gem 'codeclimate-test-reporter', group: :test, require: nil
 gem 'awesome_print'
