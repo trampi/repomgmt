@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150123201006) do
+ActiveRecord::Schema.define(version: 20150125132259) do
 
   create_table "comments", force: :cascade do |t|
     t.integer  "user_id"
@@ -49,6 +49,7 @@ ActiveRecord::Schema.define(version: 20150123201006) do
     t.datetime "updated_at"
     t.datetime "last_index_date"
     t.integer  "size_in_bytes",   limit: 8
+    t.datetime "last_check_date"
   end
 
   create_table "repository_accesses", force: :cascade do |t|

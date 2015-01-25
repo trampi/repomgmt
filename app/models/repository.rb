@@ -71,6 +71,7 @@ class Repository < ActiveRecord::Base
   end
 
   def index_commits_if_changed
+    touch :last_check_date
     index_commits if last_index_date.nil? || last_modification_date > last_index_date
   end
 
@@ -167,7 +168,7 @@ class Repository < ActiveRecord::Base
 
   def self.index_commits
     logger.info 'reindex begin at ' + DateTime.now.to_s
-    Repository.all.each(&:index_commits)
+    Repository.all.each(&:index_commits_if_changed)
     logger.info 'reindex end at ' + DateTime.now.to_s
   end
 

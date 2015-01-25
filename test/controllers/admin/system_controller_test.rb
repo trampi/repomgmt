@@ -11,10 +11,10 @@ class Admin::SystemControllerTest < ActionController::TestCase
 
   test 'should reindex repositories' do
     sign_in users(:admin)
-    old_index_date = repositories(:repository_one).last_index_date
+    old_index_date = repositories(:repository_one).last_check_date
     post :reindex_repositories
     assert_response :redirect
 
-    assert_not_equal old_index_date, Repository.find(repositories(:repository_one).id).last_index_date
+    assert_not_equal old_index_date, Repository.find(repositories(:repository_one).id).last_check_date
   end
 end
