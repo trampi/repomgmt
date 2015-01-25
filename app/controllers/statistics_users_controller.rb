@@ -7,15 +7,15 @@ class StatisticsUsersController < ApplicationController
   def user_statistics(user)
     {
         user: user,
-        commits_history: commits_history,
-        repositories: repositories
+        commits_history: commits_history(user),
+        repositories: repositories(user)
     }
   end
 
   private
 
-  def commits_history
-    user.get_commits_per_day.map do |date_and_commits|
+  def commits_history(user)
+    user.commits_per_day.map do |date_and_commits|
       {
           date: date_and_commits[:date],
           commits: date_and_commits[:commits].count # we do not need all commits, just the count of commits per day
@@ -23,7 +23,7 @@ class StatisticsUsersController < ApplicationController
     end
   end
 
-  def repositories
+  def repositories(user)
     user.commits_per_repository.map do |repository, commits|
       {
           name: repository.name,

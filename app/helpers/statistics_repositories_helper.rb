@@ -1,11 +1,9 @@
 module StatisticsRepositoriesHelper
-
-  def repository_statistics_link repository
-    if current_user.admin? then
+  def repository_statistics_link(repository)
+    if current_user.admin?
       admin_statistics_repository_path repository
     else
       statistics_repository_path repository
     end
   end
-
 end

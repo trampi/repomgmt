@@ -6,7 +6,6 @@ class VersionsHelperTest < ActionView::TestCase
   test 'get task class should provide the right css class' do
     assert_equal 'danger', version_row_class(versions(:should_have_been_delivered))
     assert_equal 'text-muted', version_row_class(versions(:delivered))
-    assert_equal '', version_row_class(versions(:in_schedule))
+    assert_equal nil, version_row_class(versions(:in_schedule))
   end
-
 end

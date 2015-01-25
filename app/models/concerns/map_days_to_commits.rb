@@ -1,27 +1,32 @@
 module MapDaysToCommits
   extend ActiveSupport::Concern
 
-  def map_days_to_commits all_commits
+  def map_days_to_commits(all_commits)
+    return [] if all_commits.empty?
+    first_commit, last_commit = all_commits.minmax { |c1, c2| c1.date <=> c2.date }
+    dates = span_dates_hash(first_commit, last_commit)
 
-    if all_commits.empty?
-      return []
+    all_commits.each { |commit| dates[get_date_of_commit(commit)] << commit }
+
+    dates.to_a.map do |e|
+      {
+          date: e[0],
+          commits: e[1]
+      }
     end
+  end
 
-    sorted_commits = all_commits.sort { |c1, c2| c1.date <=> c2.date }
+  private
 
-    first_commit = sorted_commits.first
-    last_commit = sorted_commits.last
+  def get_date_of_commit(commit)
+    commit.date.to_date
+  end
 
-    # span a range from first commit to today
+  def span_dates_hash(first_commit, last_commit)
     dates = {}
-    (first_commit.date.to_date .. last_commit.date.to_date).each do |date|
+    (get_date_of_commit(first_commit) .. get_date_of_commit(last_commit)).each do |date|
       dates[date] = []
     end
-
-    sorted_commits.each do |commit|
-      dates[commit.date.to_date] << commit
-    end
-
-    dates.to_a.map { |e| {date: e[0], commits: e[1]} }
+    dates
   end
 end

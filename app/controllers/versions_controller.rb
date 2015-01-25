@@ -26,15 +26,14 @@ class VersionsController < ApplicationController
   end
 
   def create
-    @version = Repository.find(params[:repository_id]).versions.build version_params
+    @project = Repository.find(params[:repository_id])
+    @version = @project.versions.build(version_params)
     if @version.save test
       flash[:success] = t('version.created')
-      redirect_to repository_versions_path(@version.repository)
+      redirect_to repository_versions_path(@project)
     else
-      @project = Repository.find params[:repository_id]
       render 'new'
     end
-
   end
 
   def destroy
@@ -45,6 +44,7 @@ class VersionsController < ApplicationController
   end
 
   private
+
   def version_params
     params.require(:version).permit(:name, :due_date, :delivered)
   end

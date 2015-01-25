@@ -59,34 +59,40 @@ class TasksController < ApplicationController
   end
 
   private
+
   def set_fields
-    @projects = current_user.repositories.all
+    @projects = valid_repositories.all
     @project = selected_project
     @selected_project_id = selected_project_id
     @task.repository = @project
+    @versions = []
+    @users = []
 
-    if @project
-      @versions = @project.versions
-      @users = @project.users
-    else
-      @versions = []
-      @users = []
-    end
-
-  end
-
-  def selected_project
-    if params[:task] && params[:task][:repository_id]
-      current_user.repositories.find_by_id params[:task][:repository_id]
-    elsif @task.repository
-      @task.repository
-    elsif params[:repository_id]
-      current_user.repositories.find_by_id params[:repository_id]
-    end
+    return unless @project
+    @versions = @project.versions
+    @users = @project.users
   end
 
   def selected_project_id
     selected_project.id unless selected_project.nil?
+  end
+
+  def selected_project
+    if task_repository_id?
+      valid_repositories.find_by_id params[:task][:repository_id]
+    elsif @task.repository
+      @task.repository
+    elsif params[:repository_id]
+      valid_repositories.find_by_id params[:repository_id]
+    end
+  end
+
+  def valid_repositories
+    current_user.repositories
+  end
+
+  def task_repository_id?
+    params[:task] && params[:task][:repository_id]
   end
 
   def task_params

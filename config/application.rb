@@ -21,10 +21,10 @@ module Repomgmt
     config.i18n.default_locale = :en
 
     config.active_record.raise_in_transactional_callbacks = true
-    config.autoload_paths += %W["#config.root/app/validators"]
+    config.autoload_paths += %W("#{config.root}/app/validators")
     config.filter_parameters << :gauth_secret << :gauth_enabled << :gauth_tmp << :gauth_tmp_datetime << :gauth_token
 
-    config.action_mailer.default_url_options = { host: 'localhost:3000' }
+    config.action_mailer.default_url_options = {host: 'localhost:3000'}
 
     config.repomgmt = ActiveSupport::OrderedOptions.new
 

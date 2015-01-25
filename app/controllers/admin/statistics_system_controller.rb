@@ -24,7 +24,7 @@ class Admin::StatisticsSystemController < ApplicationController
 
   def commits_history
     Rails.cache.fetch("commit_history_#{Repository.last_index_date}", expires_in: 1.month) do
-      Repository.get_commits_per_day.map do |date_and_commits|
+      Repository.commits_per_day.map do |date_and_commits|
         {
             date: date_and_commits[:date],
             commits: date_and_commits[:commits].count # we do not need all commits, just the count of commits per day

@@ -31,7 +31,7 @@ class User < ActiveRecord::Base
 
   before_destroy :mark_authentication_for_rewrite
 
-  def has_public_key?
+  def public_key?
     SSHKey.valid_ssh_public_key? public_key
   end
 
@@ -57,14 +57,14 @@ class User < ActiveRecord::Base
   end
 
   def commits_per_repository
-    repository_commits = Hash.new
+    repository_commits = {}
     repositories.all.each do |repository|
       repository_commits[repository] = commits.where repository: repository
     end
     repository_commits
   end
 
-  def get_commits_per_day
+  def commits_per_day
     User.map_days_to_commits commits
   end
 
@@ -79,7 +79,6 @@ class User < ActiveRecord::Base
   def tasks_visible
     tasks = []
     repositories.each { |repo| tasks += repo.tasks }
-    return tasks
+    tasks
   end
-
 end

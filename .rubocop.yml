@@ -1,5 +1,38 @@
+AllCops:
+  Exclude:
+    - 'bin/**/*'
+    - 'db/migrate/**/*'
+    - 'db/schema.rb'
+    - 'db/seeds.rb'
+
 Style/EndOfLine:
   Enabled: false
 
 Metrics/LineLength:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  EnforcedStyle: compact
+  Exclude:
+    - 'config/application.rb'
+
+Style/IndentHash:
+  Enabled: false
+
+Style/SpaceInsideRangeLiteral:
+  Enabled: false
+
+Style/SpaceInsideHashLiteralBraces:
+  EnforcedStyle: no_space
+
+Metrics/AbcSize:
+  Max: 16
+
+Metrics/ClassLength:
+  Max: 200
+
+Style/SpaceAroundEqualsInParameterDefault:
   Enabled: false

@@ -1,13 +1,12 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
-
   test 'user without public key should not respond as if the user had one' do
-    assert_not users(:user_without_public_key).has_public_key?
+    assert_not users(:user_without_public_key).public_key?
   end
 
   test 'user with public key should respond accordingly' do
-    assert users(:user_with_long_public_key).has_public_key?
+    assert users(:user_with_long_public_key).public_key?
   end
 
   test 'public key length should be checked' do
@@ -82,17 +81,17 @@ class UserTest < ActiveSupport::TestCase
 
   test 'user as json should not contain any sensitive informations' do
     user = users(:user_one)
-    expected_keys = ['id', 'name', 'created_at', 'updated_at', 'email', 'admin', 'public_key', 'locale']
+    expected_keys = %w(id name created_at updated_at email admin public_key locale)
     assert_equal expected_keys, user.as_json.keys
   end
 
   test 'user commits should be mappable to days' do
     user = users(:user_with_long_public_key)
-    assert_equal 3, user.get_commits_per_day[0][:commits].count
+    assert_equal 3, user.commits_per_day[0][:commits].count
   end
 
   test 'user with no commits should return an empty commit array when mapping to days' do
     user = users(:user_one)
-    assert_empty user.get_commits_per_day
+    assert_empty user.commits_per_day
   end
 end

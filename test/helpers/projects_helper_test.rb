@@ -8,5 +8,4 @@ class ProjectsHelperTest < ActionView::TestCase
     assert_equal 'warning', task_class(tasks(:in_progress))
     assert_equal 'danger', task_class(tasks(:not_assigned))
   end
-
 end

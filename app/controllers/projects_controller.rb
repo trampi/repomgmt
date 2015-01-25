@@ -9,35 +9,34 @@ class ProjectsController < ApplicationController
     @filter_set = false
 
     # filters for tasks
-    if params[:version]
-      @filter_set = true
-      params[:version].each { @tasks = @tasks.where(version: params[:version]) }
-    end
+    pre_filter_tasks
 
-    if params[:author]
-      @filter_set = true
-      params[:author].each { @tasks = @tasks.where(author: params[:author]) }
-    end
-
-    if params[:assignee]
-      @filter_set = true
-      params[:assignee].each { @tasks = @tasks.where(assignee: params[:assignee]) }
-    end
-
-    # this filter needs to be used as last because it will execute the builded query
+    # this filter needs to be used as last because it will execute the built query
     return unless params[:state]
+    post_filter_tasks
+  end
+
+  private
+
+  def pre_filter_tasks
+    filter_for :version
+    filter_for :author
+    filter_for :assignee
+  end
+
+  def filter_for(sym)
+    return unless params[sym]
+    @filter_set = true
+    params[sym].each { @tasks = @tasks.where(sym => params[sym]) }
+  end
+
+  def post_filter_tasks
     @filter_set = true
     remaining_tasks = []
-    if params[:state].include?('notAssigned')
-      remaining_tasks += @tasks.to_a.find_all(&:not_assigned?)
-    end
 
-    if params[:state].include?('inProgress')
-      remaining_tasks += @tasks.to_a.find_all(&:in_progress?)
-    end
-
-    if params[:state].include?('solved')
-      remaining_tasks += @tasks.to_a.find_all(&:solved?)
+    %w(not_assigned in_progress solved).each do |state|
+      sym = (state + '?').to_sym
+      remaining_tasks += @tasks.to_a.find_all(&sym) if params[:state].include?(state)
     end
 
     @tasks = remaining_tasks

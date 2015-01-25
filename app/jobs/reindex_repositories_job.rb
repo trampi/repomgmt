@@ -1,7 +1,7 @@
 class ReindexRepositoriesJob < ActiveJob::Base
   queue_as :default
 
-  def perform(*args)
+  def perform(*)
     Repository.index_commits
   end
 end

@@ -17,11 +17,11 @@
       <div class="col-md-4">
         <h4>Tags</h4>
 
-        <% if @repository.get_tags.empty? then %>
+        <% if @repository.tags.empty? then %>
             <p>Es wurden keine Tags gefunden</p>
         <% else %>
             <ul>
-              <% @repository.get_tags.each do |tag| %>
+              <% @repository.tags.each do |tag| %>
                   <li><%= tag.name %></li>
               <% end %>
             </ul>
@@ -30,7 +30,7 @@
       <div class="col-md-4">
         <h4>Branches</h4>
         <ul>
-          <% @repository.get_branches.each do |branch| %>
+          <% @repository.branches.each do |branch| %>
               <li><%= branch.name %></li>
           <% end %>
         </ul>

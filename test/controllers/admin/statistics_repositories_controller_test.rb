@@ -14,7 +14,7 @@ class Admin::StatisticsRepositoriesControllerTest < ActionController::TestCase
 
   test 'show should get repository details' do
     sign_in users(:admin)
-    get :show, {id: repositories(:repository_one).id}
+    get :show, id: repositories(:repository_one).id
     assert_response :success
 
     statistics = assigns[:statistics]
@@ -35,7 +35,7 @@ class Admin::StatisticsRepositoriesControllerTest < ActionController::TestCase
     Commit.create repository: repository, author_email: 'test@example.com', date: Date.new(2015, 1, 18), sha: 'a94a8fe5ccb19ba61c4c0873d391e987982fbbd3'
 
     sign_in users(:admin)
-    get :show, {id: repositories(:repository_one).id}
+    get :show, id: repositories(:repository_one).id
     assert_response :success
 
     statistics = assigns[:statistics]

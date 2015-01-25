@@ -11,7 +11,7 @@
     </div>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-        <li class="dropdown <%= 'active' if is_projects_controller? %>">
+        <li class="dropdown <%= 'active' if projects_controller? %>">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= t('activerecord.models.task.other') %> <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <li>
@@ -32,7 +32,7 @@
           </ul>
         </li>
         <% if admin? %>
-            <li class="dropdown <%= 'active' if is_repositories_controller? %>">
+            <li class="dropdown <%= 'active' if repositories_controller? %>">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= t('activerecord.models.repository.other') %> <span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li>
@@ -59,7 +59,7 @@
             </li>
         <% end %>
         <% if admin? %>
-            <li class="dropdown <%= 'active' if is_users_controller? %>">
+            <li class="dropdown <%= 'active' if users_controller? %>">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= t('activerecord.models.user.other') %> <span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li>
@@ -85,7 +85,7 @@
               </ul>
             </li>
         <% end %>
-        <li class="dropdown <%= 'active' if is_statistics_controller? %>">
+        <li class="dropdown <%= 'active' if statistics_controller? %>">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= t('navigation.statistics') %> <span class="caret"></span></a>
           <ul class="dropdown-menu">
             <% if admin? %>
@@ -127,7 +127,7 @@
         </div>
       </form>
       <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown">
+        <li class="dropdown <%= 'active' if settings_controller? || system_controller? %>">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
             <%= current_user.name %> <span class="caret"></span>
           </a>

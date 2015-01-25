@@ -6,7 +6,6 @@ Rails.application.routes.draw do
 
   # Registered user
   authenticated :user do
-
     root to: 'index#index', as: :authenticated_root
 
     # projects
@@ -29,7 +28,7 @@ Rails.application.routes.draw do
   end
 
   # Admin
-  authenticated :user, lambda { |user| user.admin? } do
+  authenticated :user, -> (user) { user.admin? } do
     # administration stuff
     namespace 'admin' do
       # repositories

@@ -25,7 +25,7 @@ class RepositoryAccessTest < ActiveSupport::TestCase
 
   test 'repository access commit push' do
     skip_on_travis_ci
-    assert RepositoryAccess.rewrite_auth
+    assert RepositoryAccess.rewrite_auth, 'Undefined error while rewriting keys and / or while committing and pushing'
     expected = <<END
 repo gitolite-admin
     RW+ = admin

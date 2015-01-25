@@ -7,32 +7,35 @@ module ApplicationHelper
     User.all
   end
 
-  def is_repositories_controller?
+  def repositories_controller?
     controller.controller_name == 'repositories'
   end
 
-  def is_users_controller?
+  def users_controller?
     controller.controller_name == 'users'
   end
 
-  def is_statistics_controller?
+  def statistics_controller?
     controller.controller_name.starts_with? 'statistics'
   end
 
-  def is_settings_controller?
+  def settings_controller?
     controller.controller_name.starts_with? 'settings'
   end
 
-  def is_projects_controller?
-    return ['projects', 'tasks', 'versions'].any? { |name| controller.controller_name.starts_with? name }
+  def system_controller?
+    controller.controller_name.starts_with? 'system'
   end
 
-  def human_boolean bool
+  def projects_controller?
+    %w(projects tasks versions).any? { |name| controller.controller_name.starts_with? name }
+  end
+
+  def human_boolean(bool)
     bool ? I18n.t('Yes') : I18n.t('No')
   end
 
   def locales_for_select
-    [['English', 'en'], ['Deutsch', 'de']]
+    [%w(English en), %w(Deutsch de)]
   end
-
 end

@@ -14,7 +14,7 @@ class Admin::StatisticsUsersControllerTest < ActionController::TestCase
 
   test 'show should get repository details' do
     sign_in users(:user_with_long_public_key)
-    get :show, {id: users(:user_with_long_public_key).id}
+    get :show, id: users(:user_with_long_public_key).id
     assert_response :success
 
     statistics = assigns[:statistics]
@@ -30,5 +30,4 @@ class Admin::StatisticsUsersControllerTest < ActionController::TestCase
     assert_equal 'repository_two', repositories[1][:name]
     assert_equal 0, repositories[1][:commits]
   end
-
 end

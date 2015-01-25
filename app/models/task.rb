@@ -1,7 +1,7 @@
 class Task < ActiveRecord::Base
   belongs_to :version
-  belongs_to :author, class_name: "User"
-  belongs_to :assignee, class_name: "User"
+  belongs_to :author, class_name: 'User'
+  belongs_to :assignee, class_name: 'User'
   belongs_to :repository
   has_many :comments, dependent: :destroy
 
@@ -10,10 +10,10 @@ class Task < ActiveRecord::Base
   validates :author, presence: true
 
   def in_progress?
-    return !assignee.nil? && !solved?
+    !assignee.nil? && !solved?
   end
 
   def not_assigned?
-    return !in_progress? && !solved?
+    !in_progress? && !solved?
   end
 end

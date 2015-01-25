@@ -13,9 +13,9 @@ class Repository < ActiveRecord::Base
   has_many :commits, dependent: :destroy
 
   validates :name, presence: true, uniqueness: true, format: {with: /\A[a-zA-Z0-9_]+\z/, message: 'darf nur Buchstaben, Zahlen und Unterstriche enthalten'}
-  validates_presence_of :repository_access # gitolite enforces that a repository has to have at least one user
+  validates :repository_access, presence: true # gitolite enforces that a repository has to have at least one user
 
-  before_destroy { |record| record.delete_repository }
+  before_destroy(&:delete_repository)
   before_save { |record| record.rename_repository record.name if record.persisted? }
 
   before_save do
@@ -27,40 +27,40 @@ class Repository < ActiveRecord::Base
     mark_authentication_for_rewrite
   end
 
-  def get_url
+  def url
     Rails.configuration.repomgmt.repository_url_prefix + name
   end
 
-  def get_first_commit
+  def first_commit
     commits.order(date: :asc).take
   end
 
-  def get_last_commit
+  def last_commit
     commits.order(date: :desc).take
   end
 
-  def get_tags
-    # TODO
-    git = Git.bare get_path
+  def tags
+    # TODO: put it in the database
+    git = Git.bare path
     git.tags
   end
 
-  def get_branches
-    # TODO
-    git = Git.bare get_path
+  def branches
+    # TODO: put it in the database
+    git = Git.bare path
     git.branches
   end
 
-  def get_path
+  def path
     Rails.configuration.repomgmt.repository_root_path + "/#{name}.git"
   end
 
-  def get_commits_per_day
+  def commits_per_day
     Repository.map_days_to_commits commits
   end
 
   def commits_per_author
-    commits.to_a.group_by { |commit| commit.user }
+    commits.to_a.group_by(&:user)
   end
 
   def current_version
@@ -72,63 +72,56 @@ class Repository < ActiveRecord::Base
   end
 
   def index_commits
+    # TODO: abort if no modification to repository happened
     commits.destroy_all
     transaction do
       read_all_commits.each do |commit|
-        commit_model = Commit.convert(commit)
-        commit_model.repository = self
-        commit_model.user = User.find_by email: commit_model.committer_email
-        commit_model.save
+        Commit.convert_and_save(commit, repository: self, user: User.find_by(email: commit.committer.email))
       end
-
-      self.size_in_bytes = 0
-      Find.find(get_path) { |f| self.size_in_bytes += File.size(f) if File.file?(f) }
-
+      calculate_size
       touch :last_index_date
       save
     end
-    commits.reload
     reload
   end
 
-  def delete_repository
-    FileUtils.rm_rf get_path
+  def calculate_size
+    self.size_in_bytes = 0
+    Find.find(path) { |f| self.size_in_bytes += File.size(f) if File.file?(f) }
   end
 
-  def rename_repository newname
-    oldpath = Repository.find(id).get_path
-    newpath = Rails.configuration.repomgmt.repository_root_path + "/#{newname}.git"
-    if oldpath != newpath then
-      FileUtils.mv(oldpath, newpath)
-    end
+  def delete_repository
+    FileUtils.rm_rf path
+  end
+
+  def rename_repository(new_name)
+    old_path = Repository.find(id).path
+    new_path = Rails.configuration.repomgmt.repository_root_path + "/#{new_name}.git"
+    FileUtils.mv(old_path, new_path) if old_path != new_path
   end
 
   private
 
   def read_all_commits
-    begin
-      git = Git.bare get_path
-      git.log(100000).to_a
-    rescue Git::GitExecuteError => e
-      logger.error 'Failed fetching commits'
-      logger.error e
-      []
-    end
+    git = Git.bare path
+    git.log(100_000).to_a
+  rescue Git::GitExecuteError => e
+    logger.error 'Failed fetching commits'
+    logger.error e
+    []
   end
 
   ############## CLASS METHODS ##############
 
-  public
-
   def self.commits_per_author
     result = {}
     Repository.all.each do |repo|
-      result.merge!(repo.commits_per_author) { |key, v1, v2| v1 + v2 }
+      result.merge!(repo.commits_per_author) { |_key, v1, v2| v1 + v2 }
     end
-    return result
+    result
   end
 
-  def self.get_commits_per_day
+  def self.commits_per_day
     map_days_to_commits Commit.all
   end
 
@@ -168,9 +161,9 @@ class Repository < ActiveRecord::Base
   end
 
   def self.index_commits
-    logger.info "reindex begin at " + DateTime.now.to_s
-    Repository.all.each { |repo| repo.index_commits }
-    logger.info "reindex end at " + DateTime.now.to_s
+    logger.info 'reindex begin at ' + DateTime.now.to_s
+    Repository.all.each(&:index_commits)
+    logger.info 'reindex end at ' + DateTime.now.to_s
   end
 
   def self.last_index_date

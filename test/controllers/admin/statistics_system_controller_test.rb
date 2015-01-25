@@ -45,5 +45,4 @@ class Admin::StatisticsSystemControllerTest < ActionController::TestCase
     assert_equal 'test@example.com', statistics[:commits_per_author].last[:author]
     assert_equal 1, statistics[:commits_per_author].last[:commits]
   end
-
 end

@@ -16,13 +16,13 @@
                 Status
                 <div class="checkbox text-danger">
                   <label>
-                    <%= check_box_tag "state[]", "notAssigned", params.fetch(:state, []).include?("notAssigned") %>
+                    <%= check_box_tag "state[]", "not_assigned", params.fetch(:state, []).include?("not_assigned") %>
                     Nicht zugewiesen
                   </label>
                 </div>
                 <div class="checkbox text-warning">
                   <label>
-                    <%= check_box_tag "state[]", "inProgress", params.fetch(:state, []).include?("inProgress") %>
+                    <%= check_box_tag "state[]", "in_progress", params.fetch(:state, []).include?("in_progress") %>
                     In Bearbeitung
                   </label>
                 </div>

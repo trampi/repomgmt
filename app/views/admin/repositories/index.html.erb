@@ -20,7 +20,7 @@
         <tr data-href="<%= edit_admin_repository_path repository %>">
           <td><%= repository.name %></td>
           <td><%= repository.users.count %></td>
-          <td class="hidden-xs"><a href="<%= repository.get_url %>"><%= repository.get_url %></a></td>
+          <td class="hidden-xs"><a href="<%= repository.url %>"><%= repository.url %></a></td>
         </tr>
     <% end %>
   </tbody>
