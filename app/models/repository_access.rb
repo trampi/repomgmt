@@ -72,7 +72,7 @@ class RepositoryAccess < ActiveRecord::Base
   def self.remove_all_keyfiles
     FileUtils.rm_r Repository.gitolite_keys
   rescue => e
-    log_error 'Failed deliting key directory', e
+    log_error 'Failed deleting key directory', e
   end
 
   def self.rewrite_keys
