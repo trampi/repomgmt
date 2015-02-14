@@ -7,7 +7,7 @@ gem 'sqlite3'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
-gem 'uglifier', '>= 1.3.0'
+gem 'uglifier', '~> 2.7.0'
 # Use CoffeeScript for .coffee assets and views
 gem 'coffee-rails', '~> 4.1.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
@@ -48,24 +48,24 @@ group :mysql do
   gem 'mysql2'
 end
 
-gem 'bootstrap-sass'
+gem 'bootstrap-sass', '~> 3.3.3'
 gem 'devise'
 gem 'twitter-typeahead-rails'
 gem 'handlebars_assets'
-gem 'git'
+gem 'git', '~> 1.2.8'
 gem 'sshkey'
 gem 'thin'
 gem 'sys-filesystem'
 gem 'morrisjs-rails'
 gem 'raphael-rails'
 gem 'bootstrap-datepicker-rails'
-gem 'devise_google_authenticator'
+gem 'devise_google_authenticator', '~> 0.3.16'
 gem 'gon'
 gem 'js-routes'
 gem 'simplecov', '~> 0.9.1', require: false, group: :test
 gem 'rake', group: :test
 gem 'codeclimate-test-reporter', group: :test, require: nil
 gem 'awesome_print'
-gem 'sidekiq'
-gem 'rubocop'
+gem 'sidekiq', '~> 3.3.2'
+gem 'rubocop', '~> 0.29.1'
 gem 'mechanize'
